@@ -10,8 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Comment {
-    private Integer id;
-    private String name;
+    private Integer no;
+    private String id;
     private String content;
     private String resdate;
     private Integer par;

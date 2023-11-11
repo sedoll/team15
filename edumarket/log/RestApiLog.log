@@ -3082,3 +3082,28 @@ org.attoparser.ParseException: (Line = 56, Column = 65) Malformed markup: Attrib
 2023-11-11 23:24:34.968 INFO  [http-nio-8085-exec-6] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Start completed.
 2023-11-11 23:25:40.403 INFO  [SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Shutdown initiated...
 2023-11-11 23:25:40.406 INFO  [SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Shutdown completed.
+2023-11-11 23:47:24.204 INFO  [background-preinit] [o.h.validator.internal.util.Version] - HV000001: Hibernate Validator 6.2.5.Final
+2023-11-11 23:47:24.206 INFO  [restartedMain] [c.chunjae.edumarket.EdumarketApplication] - Starting EdumarketApplication using Java 17.0.7 on DESKTOP-B8115SN with PID 40544 (E:\git\team_pro5\edumarket\build\classes\java\main started by donha in E:\git\team_pro5\edumarket)
+2023-11-11 23:47:24.207 INFO  [restartedMain] [c.chunjae.edumarket.EdumarketApplication] - No active profile set, falling back to 1 default profile: "default"
+2023-11-11 23:47:24.452 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-11-11 23:47:24.453 INFO  [restartedMain] [o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor] - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-11-11 23:47:25.575 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat initialized with port(s): 8085 (http)
+2023-11-11 23:47:25.584 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Initializing ProtocolHandler ["http-nio-8085"]
+2023-11-11 23:47:25.585 INFO  [restartedMain] [org.apache.catalina.core.StandardService] - Starting service [Tomcat]
+2023-11-11 23:47:25.585 INFO  [restartedMain] [org.apache.catalina.core.StandardEngine] - Starting Servlet engine: [Apache Tomcat/9.0.82]
+2023-11-11 23:47:25.770 INFO  [restartedMain] [org.apache.jasper.servlet.TldScanner] - At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2023-11-11 23:47:25.777 INFO  [restartedMain] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring embedded WebApplicationContext
+2023-11-11 23:47:25.777 INFO  [restartedMain] [o.s.b.w.s.c.ServletWebServerApplicationContext] - Root WebApplicationContext: initialization completed in 1324 ms
+2023-11-11 23:47:26.232 INFO  [restartedMain] [o.s.b.a.w.s.WelcomePageHandlerMapping] - Adding welcome page template: index
+2023-11-11 23:47:26.350 INFO  [restartedMain] [o.s.s.web.DefaultSecurityFilterChain] - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3e5abc19, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@634e9953, org.springframework.security.web.context.SecurityContextPersistenceFilter@311f44da, org.springframework.security.web.header.HeaderWriterFilter@70ebd2b0, org.springframework.security.web.csrf.CsrfFilter@1868611d, org.springframework.security.web.authentication.logout.LogoutFilter@20cb09f0, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@1513c527, org.springframework.security.web.session.ConcurrentSessionFilter@31dadf2d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@555926e0, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@595dac80, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@108f909d, org.springframework.security.web.session.SessionManagementFilter@5262e0a1, org.springframework.security.web.access.ExceptionTranslationFilter@2297ca85, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@70b9c39f]
+2023-11-11 23:47:26.600 INFO  [restartedMain] [o.s.b.d.a.OptionalLiveReloadServer] - LiveReload server is running on port 35729
+2023-11-11 23:47:26.612 INFO  [restartedMain] [o.apache.coyote.http11.Http11NioProtocol] - Starting ProtocolHandler ["http-nio-8085"]
+2023-11-11 23:47:26.643 INFO  [restartedMain] [o.s.b.w.embedded.tomcat.TomcatWebServer] - Tomcat started on port(s): 8085 (http) with context path ''
+2023-11-11 23:47:26.653 INFO  [restartedMain] [c.chunjae.edumarket.EdumarketApplication] - Started EdumarketApplication in 3.052 seconds (JVM running for 5.024)
+2023-11-11 23:47:32.104 INFO  [http-nio-8085-exec-1] [o.a.c.c.C.[Tomcat].[localhost].[/]] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-11-11 23:47:32.104 INFO  [http-nio-8085-exec-1] [o.s.web.servlet.DispatcherServlet] - Initializing Servlet 'dispatcherServlet'
+2023-11-11 23:47:32.105 INFO  [http-nio-8085-exec-1] [o.s.web.servlet.DispatcherServlet] - Completed initialization in 0 ms
+2023-11-11 23:47:47.325 INFO  [http-nio-8085-exec-4] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Starting...
+2023-11-11 23:47:47.411 INFO  [http-nio-8085-exec-4] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Start completed.
+2023-11-11 23:48:34.247 INFO  [SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Shutdown initiated...
+2023-11-11 23:48:34.250 INFO  [SpringApplicationShutdownHook] [com.zaxxer.hikari.HikariDataSource] - HikariPool-1 - Shutdown completed.

@@ -128,9 +128,9 @@ public class CommonController {
     // 게시글 상세 보기
     // 일치하는 데이터가 없으면 null 반환
     @GetMapping("getBoard")
-    public String getBoard(@RequestParam("id") Integer id,  Model model) throws Exception {
-        Board board = boardService.getBoard(id);
-        List<Comment> commentList = boardService.CommentList(id);
+    public String getBoard(@RequestParam("no") Integer no,  Model model) throws Exception {
+        Board board = boardService.getBoard(no);
+        List<Comment> commentList = boardService.CommentList(no);
         log.info(board.toString());
         if(board==null) { // 회원이 없으면 예외처리, url로 직접 들어오는 것도 방지
             throw new NoSuchFieldException("No Such Data");

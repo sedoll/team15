@@ -10,8 +10,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Board {
-    private Integer id;         // 번호
-    private String name;        // 작성자
+    private Integer no;         // 번호
+    private String id;        // 작성자
     private String title;       // 제목
     private String content;     // 내용
     private Integer cnt;        // 조회수
