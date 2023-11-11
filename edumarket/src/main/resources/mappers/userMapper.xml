@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.UserMapper">
+    <select id="getUserList" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser order by id desc
+    </select>
+    <select id="getUser" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where name = #{name}
+    </select>
+    <!-- 탈퇴하기 act:JOIN-활동중, DORMANT-휴면중, WITHDRAW-탈퇴중 -->
+    <update id="getWithdraw">
+        update euser set act='WITHDRAW' where id = #{id}
+    </update>
+    <!-- 계정 활성화 -->
+    <update id="getActivate">
+        update euser set act='JOIN' where name = #{name}
+    </update>
+    <!-- 계정 휴면 -->
+    <update id="getDormant">
+        update euser set act='DORMANT' where name = #{name}
+    </update>
+    <!-- 이메일 로그인 -->
+    <select id="getByEmail" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where email = #{email}
+    </select>
+    <!-- id 로그인 -->
+    <select id="getByName" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where name = #{name}
+    </select>
+    <!-- id(no) 로 user 찾기 -->
+    <select id="getUserById" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where id = #{id}
+    </select>
+    <!-- name(실제 id) 로 user 찾기 -->
+    <select id="getUserByName" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where name = #{name}
+    </select>
+    <!-- 아이디 찾기 -->
+    <select id="findById" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where email = #{email} and tel = #{tel}
+    </select>
+    <!-- 비밀번호 찾기 -->
+    <select id="findByPw" resultType="com.chunjae.edumarket.entity.Euser">
+        select * from euser where email = #{email} and tel = #{tel} and name = #{name}
+    </select>
+    <!-- 회원가입 -->
+    <insert id="userJoin">
+        INSERT INTO euser VALUES (DEFAULT, #{name}, #{password}, #{username}, #{email}, #{addr1}, #{addr2}, #{postcode}, #{tel}, #{birth}, DEFAULT, DEFAULT, DEFAULT)
+    </insert>
+    <!-- 회원정보수정 -->
+    <update id="updateUser">
+        UPDATE euser SET password=#{password}, username=#{username}, email=#{email} addr1=#{addr1}, addr2=#{addr2}, postcode=#{postcode}, tel=#{tel}, birth=#{birth} WHERE name = #{name}
+    </update>
+    <update id="updatePasswordNoChange">
+        UPDATE euser SET username=#{username}, address=#{address}, tel=#{tel} WHERE name = #{name}
+    </update>
+    <update id="updateLevel">
+        UPDATE euser SET lev=#{lev} WHERE name = #{name}
+    </update>
+    <delete id="removeUser">
+        DELETE from euser where name = #{name}
+    </delete>
+</mapper>

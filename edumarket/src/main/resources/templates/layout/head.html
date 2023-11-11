@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="headFragment">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-compatible" content="IE=edge"> <!-- 익스프로어 일 경우 엣지를 사용하라고 안내-->
+        <meta http-equiv="author" content="Chunjae"> <!-- 문서의 제작사 -->
+        <meta http-equiv="publisher" content="Chunjae"> <!-- 문서의 저자 정의 -->
+        <meta http-equiv="copyright" content="copyright@haebeop.co.kr"> <!-- 저작권 명시 -->
+
+        <!-- 검색엔진 최적화(SEO) -->
+        <meta name="subject" content="Chunjae"> <!-- 페이지 주제 지정 http-equiv 로 지정해도 상관 무 -->
+        <meta name="keywords" content="Chunjae"> <!-- 검색 단어 지정 -->
+        <!-- 검색 결과에 표시되는 문자 지정-->
+        <meta name="description" content="Chunjae 입니다.">
+        <meta name="robots" content="index, follow">
+
+        <!-- 오픈 그래프 -->
+        <!-- 페이지를 공유할 때 미리보기로 보여주는 코드 -->
+        <meta property="og:type" content="website">
+        <meta property="og:title" content="EduMarket">
+        <meta property="og:description" content="앞선 생각으로 더 큰 미래의 교육을 준비하는 기업">
+<!--        <meta property="og:image" th:content="~{/img/img1.jpg}">-->
+<!--        <meta property="og:url" th:content="~{/img/img1.jpg}">-->
+
+        <!-- csrf -->
+        <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+        <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+        <!-- j쿼리 -->
+        <script src="https://code.jquery.com/jquery-latest.js"></script>
+
+        <!-- datatables -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css">
+        <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" th:href="@{/css/datatables.css}">
+
+        <link rel="icon" th:href="@{/img/Fevicon.png}" type="image/png">
+        <link rel="stylesheet" th:href="@{/vendors/bootstrap/bootstrap.min.css}">
+        <link rel="stylesheet" th:href="@{/vendors/fontawesome/css/all.min.css}">
+        <link rel="stylesheet" th:href="@{/vendors/themify-icons/themify-icons.css}">
+        <link rel="stylesheet" th:href="@{/vendors/nice-select/nice-select.css}">
+        <link rel="stylesheet" th:href="@{/vendors/owl-carousel/owl.theme.default.min.css}">
+        <link rel="stylesheet" th:href="@{/vendors/owl-carousel/owl.carousel.min.css}">
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+</th:block>
+</html>

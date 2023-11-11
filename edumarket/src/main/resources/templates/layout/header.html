@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="headerFragment">
+    <header class="header_area">
+        <div class="main_menu">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <div class="container">
+                    <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+                        <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+                            <li class="nav-item active"><a class="nav-link" th:href="@{/}">Home</a></li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">Shop</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">Blog</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    <!-- 로그인을 안 한 경우 -->
+                                    <th:block sec:authorize="isAnonymous()">
+                                    <li class="nav-item"><a class="nav-link" th:href="@{/common/login}">Login</a></li>
+                                    <li class="nav-item"><a class="nav-link" th:href="@{/common/join}">Join</a></li>
+                                    </th:block>
+
+                                    <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
+
+                                    <!-- 로그인을 한 경우 -->
+                                    <th:block sec:authorize="isAuthenticated()">
+                                        <li class="nav-item active">아이디: <span th:text="${#authentication.principal}"></span></li>
+                                        <li class="nav-item active">직급: <span th:text="${#authentication.authorities}"></span></li>
+                                    </th:block>
+
+                                    <!-- admin인 경우에 보여지도록 설정, spring el-->
+                                    <th:block sec:authorize="hasAuthority('ADMIN')">
+                                        <li class="nav-item"><a th:href="@{/admin/admIndex}" class="nav-link">관리자 페이지</a></li>
+                                    </th:block>
+
+                                    <!-- emp인 경우에 보여지도록 설정, Thymeleaf expression -->
+                                    <th:block sec:authorize="hasAuthority('EMP')">
+                                        <li class="nav-item"><a th:href="@{/emp/empIndex}" class="nav-link">직원 페이지</a></li>
+                                    </th:block>
+
+                                    <!-- user인 경우에 보여지도록 설정, Thymeleaf expression -->
+                                    <th:block sec:authorize="hasAuthority('USER')">
+                                        <li class="nav-item"><a th:href="@{/user/userIndex}" class="nav-link">마이 페이지</a></li>
+                                    </th:block>
+                                </ul>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+
+                            <!-- 로그인을 한 경우 -->
+                            <th:block sec:authorize="isAuthenticated()">
+                                <li class="nav-item">
+                                    <form th:action="@{/logout}" method="post">
+                                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                        <button type="submit" class="nav-link" style="border-style: none; background-color: white">로그아웃</button>
+                                    </form>
+                                </li>
+                            </th:block>
+                        </ul>
+
+                        <ul class="nav-shop">
+                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
+                            <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+                            <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+</th:block>
+</html>

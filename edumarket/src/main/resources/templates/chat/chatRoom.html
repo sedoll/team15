@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>채팅</title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+    <style>
+        #chat {
+            max-height: 500px;
+            max-width: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <h2 style="text-align: center;">채팅</h2>
+    <!--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
+    <div class="input-group">
+        <input type="text" class="form-control" id="content" placeholder="보낼 메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <input type="hidden" id="id" th:value="${#authentication.principal}">
+            <input type="hidden" id="roomId" th:value="${roomId}" />
+            <button type="button" value="전송" class="btn btn btn-outline-primary" id="sendBtn" onclick="sendMsg()">전송</button>
+            <button type="button" value="방나가기" class="btn btn-outline-danger" onclick="quit()">방 나가기 </button>
+        </div>
+    </div>
+    <div>
+        <div style="text-align: center"><h3>채팅 내역</h3></div>
+        <div id="chat">
+            <th:block th:each="msg : ${chat}">
+                <div>[[${msg.sender}]] : [[${msg.message}]]</div>
+            </th:block>
+            <div class="msgArea"></div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+
+<!-- region websocket, 채팅 부분 js -->
+<script th:inline="javascript">
+    let socket = new WebSocket("ws://localhost:8085/ws/chat");
+    let roomId = document.getElementById('roomId').value;
+    let id = document.getElementById('id').value;
+
+    // 소켓 시작
+    socket.onopen = function (e) {
+        console.log('open server!')
+        enterRoom(socket);
+    };
+
+    // 소켓 종료
+    socket.onclose = function (e) {
+        console.log('disconnet');
+        console.log('WebSocket closed:', e);
+        location.href = "/chat/chatList";
+    };
+
+    // 에러발생
+    socket.onerror = function (e) {
+        console.log(e);
+    };
+
+    // 메세지 보냄
+    socket.onmessage = function (e) {
+        console.log(e.data);
+        // JSON 문자열을 JavaScript 객체로 파싱
+        let messageData = JSON.parse(e.data);
+
+        // sender와 message를 추출
+        let sender = messageData.sender;
+        let message = messageData.message;
+
+        let msgArea = document.querySelector('.msgArea');
+        let newMsg = document.createElement('div');
+        newMsg.innerText = `${sender} : ${message}`;
+        msgArea.append(newMsg);
+        scrollDown();
+    };
+
+    // 채팅방에 들어오는 경우
+    function enterRoom(socket) {
+        var enterMsg = {
+            "type": "ENTER",
+            "roomId": roomId,
+            "sender": id,
+            "message": ""
+        };
+        socket.send(JSON.stringify(enterMsg));
+    }
+
+    // 채팅방 메세지 보내는 경우
+    function sendMsg() {
+        // csrf 토큰 정보 가져오기
+        const token = $("meta[name='_csrf']").attr("content")
+        const header = $("meta[name='_csrf_header']").attr("content");
+        let content = document.getElementById('content').value;
+        let talkMsg = {
+            "type": "TALK",
+            "roomId": roomId,
+            "sender": id,
+            "message": content
+        };
+        socket.send(JSON.stringify(talkMsg));
+        // ajax 요청
+        $.ajax({
+            type: "POST",
+            url: "/chat/insertChat",
+            data: talkMsg,
+            cache: false,
+            success: function(result) {
+            },
+            error: function (err) {
+                console.log(err)
+            }, beforeSend: function (xhr) {
+                xhr.setRequestHeader(header, token);
+            },
+        });
+    }
+
+    // 채팅방 나가는 경우
+    function quit() {
+        var quitMsg = {
+            "type": "QUIT",
+            "roomId": roomId,
+            "sender": id,
+            "message": ""
+        };
+        socket.send(JSON.stringify(quitMsg));
+        location.href = "/chat/chatList";
+        socket.close();
+    }
+
+    // 채팅 입력시 채팅창 맨 아래로 이동
+    function scrollDown(){
+        let mySpace = document.getElementById("chat");
+        mySpace.scrollTop = mySpace.scrollHeight;
+    }
+
+    // 채팅 보내기
+    $(document).ready(function () {
+        $("#sendBtn").click(()=> {
+            $("#content").val("");
+        })
+    });
+</script>
+<!-- endregion -->
+
+
+</body>
+</html>
