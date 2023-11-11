@@ -40,8 +40,7 @@ out/
 /src/main/resources/static/upload/**
 
 # key 업로드 방지
-/src/main/java/com/chunjae/test06th/api/**
+/src/main/java/com/chunjae/edumarket/api/**
 
 # log 업로드 방지
 /log/**
-/src/main/java/com/chunjae/test06th/api/**
