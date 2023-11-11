@@ -35,3 +35,12 @@ out/
 
 ### VS Code ###
 .vscode/
+
+# 더미 데이터 업로드 방지
+/src/main/resources/static/upload/**
+
+# key 업로드 방지
+/src/main/java/com/chunjae/edumarket/api/**
+
+# log 업로드 방지
+/log/**

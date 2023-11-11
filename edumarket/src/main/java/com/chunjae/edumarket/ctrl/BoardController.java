@@ -21,8 +21,7 @@ public class BoardController {
     // 게시글 입력 폼 이동
     // 일치하는 데이터가 없으면 null 반환
     @GetMapping("boardInsert")
-    public String boardInsertForm(@RequestParam("name") String name, Model model) throws Exception {
-        model.addAttribute("name", name);
+    public String boardInsertForm(Model model) throws Exception {
         return "board/boardInsert";
     }
 
@@ -43,8 +42,8 @@ public class BoardController {
     // 게시글 수정 폼 이동
     // 일치하는 데이터가 없으면 null 반환
     @GetMapping("boardUpdate")
-    public String boardUpdateForm(@RequestParam("id") Integer id, Model model) throws Exception {
-        Board board = boardService.getBoard(id);
+    public String boardUpdateForm(@RequestParam("no") Integer no, Model model) throws Exception {
+        Board board = boardService.getBoard(no);
         model.addAttribute("board", board);
         return "board/boardUpdate";
     }
@@ -56,7 +55,7 @@ public class BoardController {
         Integer ck = boardService.updatBoard(board);
         if(ck == 1) {
             log.info("게시글 수정 성공");
-            return "redirect:/common/getBoard?id="+board.getId();
+            return "redirect:/common/getBoard?no="+board.getNo();
         } else {
             log.info("게시글 수정 실패");
             return "redirect:/";
@@ -65,8 +64,8 @@ public class BoardController {
     
     // 게시글 삭제
     @GetMapping("boardDelete")
-    public String boardDelete(@RequestParam("id") Integer id, Model model) throws Exception {
-        Integer ck = boardService.deleBoard(id);
+    public String boardDelete(@RequestParam("no") Integer no, Model model) throws Exception {
+        Integer ck = boardService.deleBoard(no);
         if(ck == 1) {
             log.info("게시글 삭제 성공");
             return "redirect:/common/boardList";
@@ -83,7 +82,7 @@ public class BoardController {
         Integer ck = boardService.inserBoardCom(comment);
         if(ck == 1) {
             log.info("댓글 작성 성공");
-            return "redirect:/common/getBoard?id="+comment.getPar();
+            return "redirect:/common/getBoard?no="+comment.getPar();
         } else {
             log.info("댓글 작성 실패");
             return "redirect:/";
@@ -92,27 +91,26 @@ public class BoardController {
     
     // 댓글 수정 폼 이동
     @GetMapping("commentUpdate")
-    public String comUpdateGet(@RequestParam("id") Integer id, Model model) throws Exception {
-        Comment com = boardService.getBoardCom(id);
+    public String comUpdateGet(@RequestParam("no") Integer no, Model model) throws Exception {
+        Comment com = boardService.getBoardCom(no);
         model.addAttribute("com", com);
         return "board/comUpdate";
     }
 
     // 댓글 수정
     @PostMapping("commentUpdate")
-    public String comUpdatePost(@RequestParam("id") Integer id, @RequestParam("content") String content, Model model) throws Exception {
-        Comment comment = boardService.getBoardCom(id);
-        comment.setId(id);
+    public String comUpdatePost(@RequestParam("no") Integer no, @RequestParam("content") String content, Model model) throws Exception {
+        Comment comment = boardService.getBoardCom(no);
         comment.setContent(content);
         int ck = boardService.upadetCom(comment);
-        return "redirect:/common/getBoard?id="+comment.getPar();
+        return "redirect:/common/getBoard?no="+comment.getPar();
     }
 
     // 댓글 삭제
     @GetMapping("commentDelete")
-    public String comDelete(@RequestParam("id") Integer id, Model model) throws Exception {
-        Comment comment = boardService.getBoardCom(id);
-        int ck = boardService.deleCom(id);
-        return "redirect:/common/getBoard?id="+comment.getPar();
+    public String comDelete(@RequestParam("no") Integer no, Model model) throws Exception {
+        Comment comment = boardService.getBoardCom(no);
+        int ck = boardService.deleCom(no);
+        return "redirect:/common/getBoard?no="+comment.getPar();
     }
 }
