@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.ProductMapper">
+    <!-- 게시글 목록, 리스트 -->
+    <select id="getProductList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product order by no desc
+    </select>
+    <!-- 게시글 목록, 리스트 -->
+    <select id="getFileList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product order by no desc
+    </select>
+    <!-- 게시글 상세 -->
+    <select id="getProduct" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where no = #{no}
+    </select>
+    <!-- 게시글수정 -->
+    <update id="updatFile">
+        UPDATE product SET title=#{title}, content=#{content} WHERE id = #{id}
+    </update>
+    <!-- 게시판 삭제 -->
+    <delete id="deleFile">
+        DELETE from product where id = #{id}
+    </delete>
+    <!-- id(no) 로 Product 찾기 -->
+    <select id="getProductById" resultType="com.chunjae.edumarket.entity.Product">
+        select * from board where id = #{id}
+    </select>
+    <!-- name(실제 id) 로 Product 찾기 -->
+    <select id="getProductByName" resultType="com.chunjae.edumarket.entity.Product">
+        select * from board where name = #{name}
+    </select>
+
+    <select id="fileList" resultType="com.chunjae.edumarket.entity.FileDTO">
+        select * from fileobj order by uploaddate desc, no asc
+    </select>
+    <!-- 파일 목록 -->
+    <select id="getFileGroupList" resultType="com.chunjae.edumarket.entity.FileDTO">
+        select * from fileobj where pno=#{pno}
+    </select>
+    <!-- 파일 상세보기 -->
+    <select id="fileDetail" resultType="com.chunjae.edumarket.entity.FileDTO">
+        select * from fileobj where no=#{no}
+    </select>
+    <!-- 파일 수 카운트 -->
+    <select id="totalFileCount" resultType="integer" >
+        select count(*) from fileobj
+    </select>
+    <!-- 파일 추가 -->
+    <insert id="fileInsert">
+        <choose>
+            <when test="originfile != null and originfile.trim() != ''">
+                insert into fileobj values (default, #{pno}, #{savefolder}, #{originfile}, #{savefile}, #{filesize}, #{uploaddate})
+            </when>
+            <otherwise>
+                -- 조건문 에러 발생 회피하기위해 의미없는 쿼리문 설정함.
+                select 1
+            </otherwise>
+        </choose>
+    </insert>
+    <!-- 글번호가 같은 파일 제거 -->
+    <delete id="fileDelete">
+        delete from fileobj where pno=#{pno}
+    </delete>
+    <!-- 하나의 파일만 제거 -->
+    <delete id="fileObjDelete">
+        delete from fileobj where no=#{no}
+    </delete>
+    <!-- 파일 자료 수정하기 -->
+    <!--	<update id="fileUpdate">-->
+    <!--		update fileobj set saveFolder=#{saveFolder}, originFile=#{originFile}, saveFile=#{saveFile}, fileSize=#{fileSize}, uploadDate=#{uploadDate} where pno=#{pno}-->
+    <!--	</update>-->
+    <update id="fileboardUpdate">
+        update fileboard set title=#{title}, content=#{content} where pno=#{pno}
+    </update>
+    <insert id="fileUpdate">
+        <choose>
+            <when test="originFile != null and originFile.trim() != ''">
+                insert into fileobj values (default, #{pno}, #{savefolder}, #{originfile}, #{savefile}, #{filesize}, #{uploaddate})
+            </when>
+            <otherwise>
+                -- 조건문 에러 발생 회피하기위해 의미없는 쿼리문 설정함.
+                select 1
+            </otherwise>
+        </choose>
+    </insert>
+    <!-- 파일 자료실 목록 -->
+    <select id="fileboardList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product order by posno desc
+    </select>
+    <!-- 파일 자료 상세보기 -->
+    <select id="fileboardDetail" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where no=#{no}
+    </select>
+    <!-- 파일 자료 상세보기 -->
+    <select id="latestFileboard" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product order by no desc limit 0,1
+    </select>
+    <!-- 중고 판매 게시글 추가 -->
+    <insert id="fileBoardInsert">
+        insert into product values(default, #{id}, #{title}, #{content}, default, default, default, #{addr})
+    </insert>
+    <!-- 파일 자료 수정하기 -->
+    <update id="fileboardEdit">
+        update product set title=#{title}, content=#{content} where no=#{no}
+    </update>
+    <!-- 파일 자료 삭제 -->
+    <delete id="fileboardDelete">
+        delete from product where no=#{no}
+    </delete>
+    <!-- 파일 자료 상세보기시 읽은 횟수 증가 -->
+    <update id="countUp">
+        update product set visited=visited+1 where no=#{no}
+    </update>
+</mapper>
