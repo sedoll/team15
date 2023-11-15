@@ -1,0 +1,5 @@
+/* content(table 사용하는 내용)들 margin-top, bottom 주기 */
+.con-tb {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}

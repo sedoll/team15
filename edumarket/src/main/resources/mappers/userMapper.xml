@@ -49,10 +49,10 @@
     </insert>
     <!-- 회원정보수정 -->
     <update id="updateUser">
-        UPDATE euser SET password=#{password}, username=#{username}, email=#{email} addr1=#{addr1}, addr2=#{addr2}, postcode=#{postcode}, tel=#{tel}, birth=#{birth} WHERE name = #{name}
+        UPDATE euser SET password=#{password}, username=#{username}, email=#{email}, addr1=#{addr1}, addr2=#{addr2}, postcode=#{postcode}, tel=#{tel}, birth=#{birth} WHERE name = #{name}
     </update>
     <update id="updatePasswordNoChange">
-        UPDATE euser SET username=#{username}, address=#{address}, tel=#{tel} WHERE name = #{name}
+        UPDATE euser SET username=#{username}, username=#{username}, email=#{email}, addr1=#{addr1}, addr2=#{addr2}, postcode=#{postcode}, tel=#{tel}, birth=#{birth} WHERE name = #{name}
     </update>
     <update id="updateLevel">
         UPDATE euser SET lev=#{lev} WHERE name = #{name}

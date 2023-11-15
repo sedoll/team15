@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+  <th:block th:replace="layout/head :: headFragment"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+  <div class="container h-100">
+    <div class="blog-banner">
+      <div class="text-center">
+        <h1>마이페이지</h1>
+        <nav aria-label="breadcrumb" class="banner-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">내정보</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div style="min-height: 100vh">
+  <div class="container con-tb">
+    <form class="pure-form pure-form-aligned" th:action="@{/user/updateUserPro}" method="post" onsubmit="return updateConfirm(this)">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <div class="pure-control-group">
+          <label for="id">Id</label>
+          <input type="text" name="name" id="id" minlength="4" maxlength="16" placeholder="영어소문자, 숫자 각각 최소 2개 포함"
+                 pattern="^(?=.*[a-z].*[a-z])(?=.*[0-9].*[0-9])[a-z0-9]*$" th:value="${user.name}" readonly/>
+        </div>
+        <div class="pure-control-group">
+          <label for="id">Level</label>
+          <input type="text" name="lev" id="lev" th:value="${user.lev}" readonly/>
+        </div>
+        <div class="pure-control-group">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" minlength="6" maxlength="100" th:value="${user.password}" placeholder="영어소문자, 숫자, _ 포함 6~18"
+                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){6,100}*$" required/>
+        </div>
+        <div class="pure-control-group">
+          <label for="password2">Password Confirm</label>
+          <input type="password" name="password2" id="password2" minlength="6" maxlength="100" th:value="${user.password}" placeholder="비밀번호 확인"
+                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){6,100}*$" required/>
+        </div>
+        <div class="pure-control-group">
+          <label for="username">Username</label>
+          <input type="text" name="username" id="username"
+                 minlength="2" maxlength="50" placeholder="username" pattern="^[가-힣]*$" th:value="${user.username}" required/>
+        </div>
+        <div class="pure-control-group">
+          <label for="email">Email</label>
+          <input type="email" name="email" id="email" placeholder="Email"
+                 pattern="^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]${2,3}"
+                 th:value="${user.email}" maxlength="100" required/>
+          <input type="hidden" id="email2" th:value="${user.email}">
+          <button type="button" id="emailCheckBtn" class="pure-button pure-button-primary" >이메일 중복 체크</button>
+          <input type="hidden" name="emailCheck" id="emailCheck" value="false">
+          <div id="msg2"></div>
+        </div>
+        <div class="pure-control-group">
+          <label for="addr1">Addr1</label>
+          <input type="text" name="addr1" id="addr1" placeholder="기본주소"
+                 pattern="^[가-힣a-zA-Z0-9\s]*$" maxlength="280" th:value="${user.addr1}" readonly/>
+        </div>
+        <div class="pure-control-group">
+          <label for="addr2">Addr2</label>
+          <input type="text" name="addr2" id="addr2" placeholder="상세주소"
+                 pattern="^[가-힣a-zA-Z0-9\s]*$" th:value="${user.addr2}" maxlength="280"/>
+        </div>
+        <div class="pure-control-group">
+          <label for="postcode">Postcode</label>
+          <input type="text" name="postcode" id="postcode" placeholder="우편번호"
+                 pattern="^[가-힣a-zA-Z0-9\s]*$" maxlength="10" th:value="${user.postcode}" readonly/>
+          <button type="button" id="post_btn" onclick="findAddr()" class="pure-button pure-button-primary">우편번호 검색</button>
+        </div>
+        <div class="pure-control-group">
+          <label for="tel">Tel</label>
+          <input type="tel" name="tel" id="tel"
+                 placeholder="010(02,0505)-0000-0000" pattern="\d{2,4}-\d{3,4}-\d{4}" maxlength="16" th:value="${user.tel}" required/>
+        </div>
+        <div class="pure-control-group">
+          <label for="birth">birth</label>
+          <input type="date" name="birth" id="birth" th:value="${user.birth}" required/>
+        </div>
+
+        <div class="pure-controls">
+          <button type="submit" class="btn btn-primary">회원정보수정</button>
+          <button type="reset" class="btn btn-danger">초기화</button>
+        </div>
+    </form>
+  </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<script th:src="@{/js/update.js}"></script>
+<script th:src="@{/js/kakao-addr.js}"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</body>
+</html>

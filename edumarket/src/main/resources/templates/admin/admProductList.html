@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지</title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+    <link rel="stylesheet" th:href="@{/css/productlist.css}">
+</head>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>관리자페이지</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">상품관리</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div style="min-height: 100vh">
+    <div class="container con-tb">
+        <div class="search_from">
+            <select name="select_filter" class="select_filter">
+                <option value="1">지역</option>
+                <option value="2">분류</option>
+                <option value="3">제목</option>
+                <option value="4">가격</option>
+                <option value="5">작성일</option>
+                <option value="6">조회수</option>
+                <option value="7">상태</option>
+            </select>
+            <input type="text" name="search_filter" class="search_filter">
+        </div>
+        <table class="table" id="myTable">
+            <thead class="thead-light">
+            <tr>
+                <th>이미지</th>
+                <th>지역</th>
+                <th>분류</th>
+                <th>제목</th>
+                <th>가격</th>
+                <th>작성일</th>
+                <th>조회수</th>
+                <th>상태</th>
+                <th>비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product, status : ${productList}">
+                <td style="width: 250px;">
+                    <img class="pro-img" th:src="${'/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
+                         alt="">
+                </td>
+                <td>
+                    [[${product.addr}]]
+                </td>
+                <td>
+                    <p>[[${product.cate}]]</p>
+                </td>
+                <td>
+                    <p><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></p>
+                </td>
+                <td>
+                    <p>[[${product.price}]]</p>
+                </td>
+                <td>
+                    <p th:text="${#strings.substring(product.resdate, 0, 10)}"></p>
+                </td>
+                <td>
+                    <p>[[${product.cnt}]]</p>
+                </td>
+                <td>
+                    <th:block th:if="${product.act eq 'JOIN'}">
+                        <p style="color: blue">판매중</p>
+                    </th:block>
+                    <th:block th:if="${product.act eq 'DSBLD'}">
+                        <p style="color: red">판매완료</p>
+                    </th:block>
+                </td>
+                <td>
+                    <th:block th:if="${product.act eq 'JOIN' and #authorization.expression('hasAuthority(''ADMIN'')')}">
+                        <a th:href="@{/product/productUpdate(no=${product.no})}" class="btn btn-primary">수정</a>
+                        <a th:href="@{/product/productDelete(no=${product.no})}" class="btn btn-danger">삭제</a>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<script th:src="@{/js/product-datatables.js}"></script>
+</body>
+</html>

@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -59,7 +62,6 @@ public class ChatController {
     
     // 채팅내역 db에 저장
     @PostMapping("insertChat")
-    @ResponseBody
     public void insertChat(ChatMessage chatMsg) throws Exception{
         chatService.insertChat(chatMsg);
     }

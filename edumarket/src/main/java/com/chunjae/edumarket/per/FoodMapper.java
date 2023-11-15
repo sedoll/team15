@@ -2,8 +2,10 @@ package com.chunjae.edumarket.per;
 
 import com.chunjae.edumarket.entity.School;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 @Mapper
 public interface FoodMapper {
-    School getSchool(String sc_name);
+    @Select("SELECT * FROM school WHERE scname LIKE CONCAT('%', #{scname}, '%') limit 1")
+    School getSchool(String scname);
 }

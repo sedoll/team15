@@ -6,9 +6,6 @@ $(function() {
     forceHeight: false
   });
 
-  //------- Active Nice Select --------//
-  $('select').niceSelect();
-
   //------- hero carousel -------//
   $(".hero-carousel").owlCarousel({
     items:3,

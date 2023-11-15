@@ -10,8 +10,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class School {
-    private String eo_code;
-    private String eo_name;
-    private String sc_code;
-    private String sc_name;
+    private String eocode;
+    private String eoname;
+    private String sccode;
+    private String scname;
 }

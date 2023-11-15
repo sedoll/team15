@@ -8,22 +8,19 @@ import java.util.List;
 
 
 public interface ProductService {
-
-    // 게시글 목록 보기
-    public List<Product> productList();
-
-    // 게시글 상세 보기
-    public Product getProduct(Integer no) throws Exception;
-
-    public int updatProduct(Product product); // 수정
-
-    public void insertFileboard(FileVO fileboard) throws Exception;
-    public List<FileVO> getFileList() throws Exception;
-    public List<FileDTO> getFileGroupList(int postNo) throws Exception;
-    public FileVO getFileObject(int no) throws Exception;
+    public List<Product> getAdmProductList(); // 모든 중고상품 리스트 목록
+    public List<Product> productList(); // 글 목록 보기
+    public List<Product> productListRecent(); // 최근 게시글 목록
+    public List<Product> myProductList(String id); // 내 상점 조회
+    public List<Product> productBuyerList(String id); // 내 구매 조회
+    public Product getProduct(Integer no) throws Exception; // 글 상세 보기
+    public int productUpdate(Product product) throws Exception; // 글 수정
+    public void insertFileboard(FileVO fileboard) throws Exception; // 글 추가
+    public List<FileDTO> getFileGroupList(int postNo) throws Exception; // 글에 들어간 파일 목록 보기
     public int removeFileboard(int postNo) throws Exception; // product, file 삭제
-    public void fileRemove(int no) throws Exception;
-    public FileDTO getFile(int no) throws Exception;
-    public void updateFileboard(FileVO fileboard) throws Exception;
-    public void removeFileAll(int postNo) throws Exception;
+    public void updateFileboard(FileVO fileboard) throws Exception; // 파일, 글 수정
+    public void removeFileAll(int postNo) throws Exception; // 글에 들어간 파일 전체 삭제
+    public void countUp(int no) throws Exception; // 중고 거래 게시글 조회수 +1
+    public FileDTO thmbn(int no) throws Exception; // 썸네일 이미지 가져오기
+    public int actUpdate(Product product); // 상품 거래 완료 처리
 }

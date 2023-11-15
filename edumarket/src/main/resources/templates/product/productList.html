@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aroma Shop - Category</title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+    <link rel="stylesheet" th:href="@{/css/productlist.css}">
+</head>
+<body>
+<!--================ Start Header Menu Area =================-->
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<!--================ End Header Menu Area =================-->
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>중고상품</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">목록</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+
+<!-- ================ category section start ================= -->
+<div style="min-height: 100vh">
+    <div class="container con-tb">
+        <div class="search_from">
+            <select name="select_filter" class="select_filter">
+                <option value="1">지역</option>
+                <option value="2">분류</option>
+                <option value="3">제목</option>
+                <option value="4">가격</option>
+                <option value="5">작성일</option>
+                <option value="6">조회수</option>
+            </select>
+            <input type="text" name="search_filter" class="search_filter">
+        </div>
+        <table class="table" id="myTable">
+            <thead class="thead-light">
+            <tr>
+                <th>이미지</th>
+                <th>지역</th>
+                <th>분류</th>
+                <th>제목</th>
+                <th>가격</th>
+                <th>작성일</th>
+                <th>조회수</th>
+                <th>비고</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product, status : ${productList}">
+                <td style="width: 250px;">
+                    <img class="pro-img" th:src="${'/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
+                         alt="">
+                </td>
+                <td>
+                    [[${product.addr}]]
+                </td>
+                <td>
+                    <p>[[${product.cate}]]</p>
+                </td>
+                <td>
+                    <p><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></p>
+                </td>
+                <td>
+                    <p th:text="${product.price eq 0 ? '무료' : product.price}"></p>
+                </td>
+                <td>
+                    <p th:text="${#strings.substring(product.resdate, 0, 10)}"></p>
+                </td>
+                <td>
+                    <p>[[${product.cnt}]]</p>
+                </td>
+                <td>
+                    <th:block th:if="${#authentication.principal eq product.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
+                        <a th:href="@{/product/productUpdate(no=${product.no})}" class="btn btn-primary">수정</a>
+                        <a th:href="@{/product/productDelete(no=${product.no})}" class="btn btn-danger">삭제</a>
+                    </th:block>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <th:block sec:authorize="isAuthenticated()">
+            <a th:href="@{/product/fileUpload}" class="btn btn-primary">판매하기</a>
+        </th:block>
+    </div>
+</div>
+
+<!--================ Start footer Area  =================-->
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<!--================ End footer Area  =================-->
+<script th:src="@{/js/product-datatables.js}"></script>
+</body>
+</html>

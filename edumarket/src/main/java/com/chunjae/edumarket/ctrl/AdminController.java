@@ -1,9 +1,12 @@
 package com.chunjae.edumarket.ctrl;
 
 import com.chunjae.edumarket.biz.ChatService;
+import com.chunjae.edumarket.biz.ProductServiceImpl;
 import com.chunjae.edumarket.biz.UserService;
 import com.chunjae.edumarket.entity.ChatRoom;
 import com.chunjae.edumarket.entity.Euser;
+import com.chunjae.edumarket.entity.FileDTO;
+import com.chunjae.edumarket.entity.Product;
 import com.chunjae.edumarket.excep.NoSuchDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -30,6 +34,8 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private ProductServiceImpl productService;
 
     // 관리자 유저목록 확인페이지
     @GetMapping("/userList")
@@ -68,12 +74,33 @@ public class AdminController {
         return "redirect:/";
     }
 
-    // 전체 채팅창 목록
+    // 전체 채팅방 목록
     @GetMapping("chatList")
-    public String chatList(@RequestParam("id") String id, Model model){
+    public String chatList(Model model){
         List<ChatRoom> roomList = chatService.findAllRoom();
         logger.info(roomList.toString());
         model.addAttribute("roomList",roomList);
-        return "admin/chatList";
+        return "admin/admChatList";
+    }
+
+    // 이상한 채팅방 비활성화
+    @GetMapping("chatDsbld")
+    public String chatDsbld(String roomId) throws Exception{
+        chatService.chatDsbld(roomId);
+        return "redirect:/admin/admChatList";
+    }
+
+    // 모든 상품 목록 보기
+    @GetMapping("productList")
+    public String productList(Model model) throws Exception {
+        List<Product> productList = productService.getAdmProductList();
+        List<FileDTO> fileList = new ArrayList<>();
+        for (Product pro:productList) {
+            FileDTO dto = productService.thmbn(pro.getNo());
+            fileList.add(dto);
+        }
+        model.addAttribute("productList", productList);
+        model.addAttribute("fileList", fileList);
+        return "admin/admProductList";
     }
 }
