@@ -84,18 +84,21 @@ CREATE TABLE board_com(
 		CASCADE
 );
 
--- 중고 상품 테이블
-DROP TABLE product;
+-- 중고거래 테이블
+-- drop table product;
 
 CREATE TABLE product(
 	no INT PRIMARY KEY AUTO_INCREMENT COMMENT '중고상품번호',
 	id VARCHAR(20) NOT NULL COMMENT '작성자',
+	cate VARCHAR(100) NOT NULL COMMENT '분류',
 	title VARCHAR(100) COMMENT '제목',
 	content VARCHAR(2000) COMMENT '내용',
+	price INT DEFAULT 10 COMMENT '가격',
 	cnt INT DEFAULT 0 COMMENT '조회수',
 	resdate DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '게시일',
-	act VARCHAR(20) DEFAULT 'DEAL' COMMENT '거래상태', -- JOIN(판매중), DSBLD(판매완료)
+	act VARCHAR(20) DEFAULT 'JOIN' COMMENT '거래상태', -- JOIN(판매중), DSBLD(판매완료)
 	addr VARCHAR(50) NOT NULL COMMENT '서울특별시 구로구',
+	buyer VARCHAR(20) DEFAULT '' COMMENT '구매자',
 	FOREIGN KEY(id) REFERENCES euser(name) ON DELETE 		
 		CASCADE
 );
@@ -136,15 +139,15 @@ create table black_list (
 );
 
 -- 중고상품에 따른 채팅방 활성화 상태
-edumoncreate view pro_chat AS select 
-	pro.no AS 'pno', -- 중고상품번호
-	pro.title 'title', -- 중고상품제목
-	chat.room_id 'room_id', -- 채팅방번호
-	chat.buyer 'buyer',
-	chat.seller 'seller',
-	chat.name 'name', -- 채팅방이름
-	pro.act 'pact', -- 중고상품활성화상태 JOIN(활성), DSBLD(비활성)
-	chat.act 'cact' -- 채팅방활성화상태 JOIN(활성), DSBLD(비활성)
+create view pro_chat AS select 
+	pro.no as 'pno', -- 중고상품번호
+	pro.title as 'title', -- 중고상품제목
+	chat.room_id as 'room_id', -- 채팅방번호
+	chat.buyer as 'buyer',
+	chat.seller as 'seller',
+	chat.name as 'name', -- 채팅방이름
+	pro.act as 'pact', -- 중고상품활성화상태 JOIN(활성), DSBLD(비활성)
+	chat.act as 'cact' -- 채팅방활성화상태 JOIN(활성), DSBLD(비활성)
 		FROM product pro RIGHT OUTER JOIN chatroom chat
 			ON pro.no = chat.pno;
 
@@ -162,10 +165,10 @@ CREATE TABLE chatmsg(
 
 -- 학교 정보
 CREATE TABLE school(
-	eo_code VARCHAR(10),
-	eo_name VARCHAR(100),
-	sc_code VARCHAR(50),
-	sc_name VARCHAR(100)
+	eocode VARCHAR(10),
+	eoname VARCHAR(100),
+	sccode VARCHAR(50),
+	scname VARCHAR(100)
 );
 
 SELECT * FROM school;
