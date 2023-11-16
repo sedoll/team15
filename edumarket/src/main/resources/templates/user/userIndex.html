@@ -32,8 +32,8 @@
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div class="pure-control-group">
           <label for="id">Id</label>
-          <input type="text" name="name" id="id" minlength="4" maxlength="16" placeholder="영어소문자, 숫자 각각 최소 2개 포함"
-                 pattern="^(?=.*[a-z].*[a-z])(?=.*[0-9].*[0-9])[a-z0-9]*$" th:value="${user.name}" readonly/>
+          <input type="text" name="name" id="id" minlength="4" maxlength="16"
+                 placeholder="영어소문자, 숫자 각각 최소 2개 포함" th:value="${user.name}" readonly/>
         </div>
         <div class="pure-control-group">
           <label for="id">Level</label>
@@ -41,13 +41,13 @@
         </div>
         <div class="pure-control-group">
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" minlength="6" maxlength="100" th:value="${user.password}" placeholder="영어소문자, 숫자, _ 포함 6~18"
-                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){6,100}*$" required/>
+          <input type="password" name="password" id="password" minlength="6" maxlength="100" th:value="${user.password}" placeholder="영어대소문자, 숫자, 특수문자 포함 4~18"
+                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){4,100}*$" required/>
         </div>
         <div class="pure-control-group">
           <label for="password2">Password Confirm</label>
           <input type="password" name="password2" id="password2" minlength="6" maxlength="100" th:value="${user.password}" placeholder="비밀번호 확인"
-                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){6,100}*$" required/>
+                 pattern="^([a-zA-Z0-9_~!@#$%^&*]){4,100}*$" required/>
         </div>
         <div class="pure-control-group">
           <label for="username">Username</label>
