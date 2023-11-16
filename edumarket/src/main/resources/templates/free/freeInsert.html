@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자유게시판 글 등록</title>
+    <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+</head>
+<style>
+    .breadcrumb a { color: #464646; }
+
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
+
+    .button1 {
+        text-decoration: none;
+        border-radius: 20px;
+        margin: 15px;
+        padding: 10px;
+        float: right;
+        background-color: #1D7151;
+        border-color: #1D7151;
+        color: #ffffff;
+    }
+    .button2 {
+        text-decoration: none;
+        border-radius: 20px;
+        margin: 15px;
+        padding: 10px;
+        float: right;
+        background-color: #FFA500;
+        border-color: #FFA500;
+        color: #ffffff;
+    }
+
+
+    .table th {
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+</style>
+
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <div class="columns">
+        <div class="column is-10 is-offset-1">
+            <form th:action="@{/free/freeInsert}" method="post">
+                <table class="table is-centered is-fullwidth">
+                    <tbody>
+                    <tr class="border-top">
+                        <th class="has-text-centered">제목</th>
+                        <td>
+                            <input type="text" name="title" id="title" class="input" placeholder="제목을 입력해주세요!" maxlength="98" th:value="${title}" required>
+                        </td>
+                    </tr>
+                    <tr class="border-top">
+                        <th class="has-text-centered">작성자</th>
+                        <td>
+                            <input type="text" name="id" id="id" class="input" maxlength="98" th:value="${name}" readonly>
+                        </td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th class="has-text-centered">내용</th>
+                        <td>
+                            <textarea name="content" id="content" class="textarea" placeholder="내용" rows="8" cols="100" maxlength="1400" required></textarea>
+                            <script>
+                                CKEDITOR.replace('content',	{filebrowserUploadUrl:'/free/imageUpload.do'});
+                            </script>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <input type="submit" class="button1" value="등록" >
+                            <input type="reset" class="button2" value="초기화">
+                            <a class="button" th:href="@{/free/freeList}">목록</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--                <div class="has-text-centered">-->
+                <!--                    <button type="submit" class="button is-link mb-5 p-5" style="border-radius: 1.5rem;">등록하기</button>-->
+                <!--                </div>-->
+            </form>
+        </div>
+        <div class="column is-1"></div>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+</body>
+</html>

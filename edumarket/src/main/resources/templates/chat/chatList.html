@@ -9,43 +9,84 @@
 </head>
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
-<div class="container">
-    <h2 style="text-align: center;">채팅방 목록</h2>
-    <th:block sec:authorize="isAuthenticated()">
-        <div class="search_from">
-            <select name="select_filter" class="select_filter">
-                <option value="0">상품이름</option>
-                <option value="1">구매자</option>
-                <option value="2">판매자</option>
-            </select>
-            <input type="text" name="search_filter" class="search_filter">
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>마이페이지</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">채팅목록</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
-        <table class="table" id="myTable">
-            <thead class="thead-light">
-                <tr>
-                    <th>상품이름</th>
-                    <th>구매자</th>
-                    <th>판매자</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="room : ${roomList}">
-                    <th:block th:if="${room.act eq 'JOIN' and (#authentication.principal eq room.buyer or #authentication.principal eq room.seller or #authentication.authorities eq '[ADMIN]')}">
-                        <td><a th:href="@{/chat/chatRoom(roomId=${room.roomId})}">[[${room.name}]]</a></td>
-                        <td>[[${room.buyer}]]</td>
-                        <td>[[${room.seller}]]</td>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div style="min-height: 100vh">
+    <div class="container con-tb">
+        <th:block sec:authorize="isAuthenticated()">
+            <div class="search_from">
+                <select name="select_filter" class="select_filter">
+                    <option value="0">상품이름</option>
+                    <option value="1">구매자</option>
+                    <option value="2">판매자</option>
+                </select>
+                <input type="text" name="search_filter" class="search_filter">
+            </div>
+            <table class="table" id="myTable">
+                <thead class="thead-light">
+                    <tr>
+                        <th>채팅방</th>
+                        <th>상품이름</th>
+                        <th>구매자</th>
+                        <th>판매자</th>
+                        <th>비고</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="room : ${roomList}">
+                    <th:block th:if="${room.act eq 'JOIN' and (#authentication.principal eq room.buyer or #authentication.principal eq room.seller or #authorization.expression('hasAuthority(''ADMIN'')'))}">
+                        <tr>
+                            <td><a th:href="@{/chat/chatRoom(roomId=${room.roomId})}"
+                                   class="btn btn-primary">들어가기</a></td>
+                            <td>[[${room.name}]]</td>
+                            <td>[[${room.buyer}]]</td>
+                            <td>[[${room.seller}]]</td>
+                            <td>
+                                <th:block th:if="${#authentication.principal eq room.seller}">
+                                    <form th:action="@{/product/sale}" method="post" onsubmit="return sale(this);">
+                                        <input type="hidden" name="pno" class="pno" th:value="${room.pno}">
+                                        <input type="hidden" name="name" class="name" th:value="${room.name}">
+                                        <input type="hidden" name="buyer" class="buyer" th:value="${room.buyer}">
+                                        <input type="hidden" name="seller" class="seller" th:value="${room.seller}">
+                                        <input type="submit" value="거래확정" class="btn btn-secondary">
+                                    </form>
+                                </th:block>
+                            </td>
+                        </tr>
                     </th:block>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
-    </th:block>
+                </th:block>
+                </tbody>
+            </table>
+        </th:block>
+    </div>
 </div>
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
 <script th:src="@{/js/datatables.js}"></script>
+<script th:inline="javascript">
+    function sale(form) {
+        var buyer = form.querySelector('.buyer').value;
+        var seller = form.querySelector('.seller').value;
+
+        var confirmMessage = '거래를 확정하시겠습니까?\n구매자 : ' + buyer + '\n판매자 : ' + seller;
+
+        return confirm(confirmMessage);
+    }
+</script>
 </body>
 </html>

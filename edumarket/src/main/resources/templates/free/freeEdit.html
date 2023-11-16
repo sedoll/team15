@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자유게시판 수정</title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+</head>
+<style>
+    .table th {
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+
+    .button1 {
+        text-decoration: none;
+        border-radius: 20px;
+        margin: 15px;
+        padding: 10px;
+        float: right;
+        background-color: #1D7151;
+        border-color: #1D7151;
+        color: #ffffff;
+    }
+    .button2 {
+        text-decoration: none;
+        border-radius: 20px;
+        margin: 15px;
+        padding: 10px;
+        float: right;
+        background-color: #FFA500;
+        border-color: #FFA500;
+        color: #ffffff;
+    }
+</style>
+
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <div class="columns">
+        <div class="column is-10 is-offset-1">
+            <form th:action="@{/free/freeEdit}" method="post">
+                <table class="table is-centered is-fullwidth">
+                    <tbody>
+                    <tr class="border-top">
+                        <th class="has-text-centered">제목</th>
+                        <td>
+                            <input type="hidden" name="no" id="no" th:value="${free.no}">
+                            <input type="text" name="title" id="title" class="input" placeholder="제목 입력"
+                                   th:value="${free.title}"
+                                   maxlength="98" required>
+                        </td>
+                    </tr>
+                    <tr class="border-top">
+                        <th class="has-text-centered">작성자</th>
+                        <td>
+                            <input type="text" name="id" id="id" class="input" maxlength="98" th:value="${free.id}" readonly>
+                        </td>
+                    </tr>
+                    <tr class="border-bottom">
+                        <th class="has-text-centered">내용</th>
+                        <td>
+                            <textarea name="content" class="textarea" id="content" placeholder="내용 입력" rows="8" cols="100"  maxlength="800"  required>
+                                [[${free.content}]]
+                            </textarea>
+                            <script>
+                                CKEDITOR.replace('content', {filebrowserUploadUrl: '/free/imageUpload.do'});
+                            </script>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="has-text-centered">
+                    <input type="submit" class="button1" value="수정">
+                    <input type="reset" class="button2" value="초기화">
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+            </form>
+        </div>
+        <div class="column is-1"></div>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+</body>
+</html>

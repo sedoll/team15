@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>공지사항 상세보기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+</head>
+
+<style>
+    .single-blog-item {
+        min-height: 35vh;
+    }
+
+    .blog-item-content hr {
+        margin-top: 0;
+    }
+
+    .blog-item-content p {
+        color: black;
+        font-size: 1.25rem;
+    }
+
+    .btns .button {
+        width: 6rem;
+    }
+</style>
+
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <div class="columns is-multiline mt-1">
+        <div class="column is-12 mb-5 border-top">
+            <div class="single-blog-item">
+                <div class="blog-item-content ml-6 mt-3">
+                    <p class="has-text-black has-text-weight-semibold mt-1" style="font-size: 1.75rem;" th:text="${notice.title}"></p>
+
+                    <div class="blog-item-meta py-2 mb-4">
+                        <span class="is-size-6 mr-3">작성자
+                            <span class="is-size-6 has-text-grey ml-1">관리자</span>
+                        </span> |
+                        <span class="is-size-6 mx-3">작성일
+                            <span class="is-size-6 has-text-grey ml-1" th:text="${notice.resdate}"></span>
+                        </span> |
+                        <span class="is-size-6 mx-3">조회수
+                            <span class="is-size-6 has-text-grey ml-1" th:text="${notice.visit}"></span>
+                        </span>
+                    </div>
+                    <hr>
+                    <p th:utext="${notice.content}"></p>
+                </div>
+            </div>
+            <div class="btns has-text-centered">
+                <!-- 아이디가 일치하거나 관리자인 경우 -->
+                <th:block sec:authorize="isAuthenticated() and (hasAuthority('ADMIN'))">
+                    <a class="button mx-1" style="background-color: #2B3A55; color: #fff;" th:href="@{/notice/noticeEdit(no=${notice.no})}">수정</a>
+                    <a class="button is-danger mx-1" th:href="@{/notice/noticeDelete(no=${notice.no})}">삭제</a>
+                    <a class="button is-info mx-1" th:href="@{/notice/noticeList}">목록</a>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+</body>
+</html>

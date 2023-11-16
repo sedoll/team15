@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.NoticeMapper">
+<!--    List<Notice> getNoticeList(); // 공지사항 목록-->
+<!--    Notice getNotice(Integer no); // 상세 공지사항-->
+<!--    int insertNotice(Notice notice); // 공지사항 추가-->
+<!--    int updateNotice(Notice notice); // 공지사항 수정-->
+<!--    int deleteNotice(Integer no); // 공지사항 삭제-->
+
+    <!--공지사항 목록-->
+    <select id="getNoticeList" resultType="com.chunjae.edumarket.entity.Notice">
+        select * from notice order by no desc
+    </select>
+
+    <!--상세 공지사항-->
+    <select id="getNotice" resultType="com.chunjae.edumarket.entity.Notice">
+        select * from notice where no =#{no}
+    </select>
+
+    <!--공지사항 추가-->
+    <insert id="insertNotice">
+        insert into notice values (default, #{title}, #{content}, default, default)
+    </insert>
+
+    <!--공지사항 수정-->
+    <update id="updateNotice">
+        update notice set title=#{title}, content=#{content} where no=#{no}
+    </update>
+
+    <!--공지사항 삭제-->
+    <delete id="deleteNotice">
+        delete from notice where no =#{no}
+    </delete>
+
+    <!--조회수-->
+    <update id="visitCount">
+        update notice set visit = visit+1 where no=#{no}
+    </update>
+</mapper>

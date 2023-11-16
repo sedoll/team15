@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>자유게시판 상세보기</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+</head>
+
+<style>
+    .single-blog-item {
+        min-height: 35vh;
+    }
+
+    .blog-item-content hr {
+        margin-top: 0;
+    }
+
+    .blog-item-content p {
+        color: black;
+        font-size: 1.25rem;
+    }
+
+    .btns .button {
+        width: 6rem;
+    }
+</style>
+
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<div class="container">
+    <div class="columns is-multiline mt-1">
+        <div class="column is-12 mb-5 border-top">
+            <div class="single-blog-item">
+                <div class="blog-item-content ml-6 mt-3">
+                    <p class="has-text-black has-text-weight-semibold mt-1" style="font-size: 1.75rem;" th:text="${free.title}"></p>
+
+                    <div class="blog-item-meta py-2 mb-4">
+                        <span class="is-size-6 mr-3">작성자
+                            <span class="is-size-6 has-text-grey ml-1" th:text="${free.id}"></span>
+                        </span> |
+                        <span class="is-size-6 mx-3">작성일
+                            <span class="is-size-6 has-text-grey ml-1" th:text="${free.resdate}"></span>
+                        </span> |
+                        <span class="is-size-6 mx-3">조회수
+                            <span class="is-size-6 has-text-grey ml-1" th:text="${free.visit}"></span>
+                        </span>
+                    </div>
+                    <hr>
+                    <p th:utext="${free.content}"></p>
+                </div>
+            </div>
+            <table class="table" id="comment">
+                <thead>
+                <tr>
+                    <th class="item1">작성자</th>
+                    <th class="item2">댓글</th>
+                    <th class="item3">작성일</th>
+                    <th class="item4">비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lev : ${comment}">
+                    <td class="item1" th:text="${lev.id}"></td>
+                    <td class="item2" th:text="${lev.content}"></td>
+                    <td class="item3" th:text="${lev.resdate}"></td>
+                    <td class="item4">
+                        <th:block th:if="${#authentication.principal eq lev.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
+                            <a th:href="@{/free/commentUpdate(no=${lev.no})}" class="button is-link is-small is-outlined is-rounded ">수정</a>
+                            <a th:href="@{/free/commentDelete(no=${lev.no})}" class="button is-danger is-small is-outlined is-rounded">삭제</a>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <form th:action="@{/free/commentInsert}" id="login_frm" class="frm" method="post" onsubmit="return comment(this)">
+                <table class="tb3">
+                    <tbody>
+                    <tr>
+                        <th:block sec:authorize="isAuthenticated()" class="form-group">
+                            <th class="has-text-centered" th:text="${#authentication.principal}"></th>
+                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글 작성" maxlength="250" required ></textarea></th>
+                            <th>
+                                <input type="hidden" name="id" th:value="${#authentication.principal}">
+                                <input type="hidden" name="par" th:value="${free.no}">
+                                <input type="submit" value="작성" class="button">
+                                <input type="hidden" id="ck" value="no">
+                            </th>
+                        </th:block>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="btns has-text-centered">
+        <!-- 아이디가 일치하거나 관리자인 경우 -->
+        <th:block th:if="${#authentication.principal eq free.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
+            <a class="button mx-1" style="background-color: #2B3A55; color: #fff;" th:href="@{/free/freeEdit(no=${free.no})}">수정</a>
+            <a class="button is-danger mx-1" th:href="@{/free/freeDelete(no=${free.no})}">삭제</a>
+            <a class="button is-info mx-1" th:href="@{/free/freeList}">목록</a>
+        </th:block>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+</body>
+</html>

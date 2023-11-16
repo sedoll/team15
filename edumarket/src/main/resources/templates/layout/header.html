@@ -6,7 +6,7 @@
         <div class="main_menu">
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="container">
-                    <a class="navbar-brand logo_h" href="index.html"><img src="img/logo.png" alt=""></a>
+                    <a class="navbar-brand logo_h" th:href="@{/}"><img th:src="@{/img/main_logo.png}" alt="" style="width: 150px;"></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="icon-bar"></span>
@@ -15,77 +15,94 @@
                     </button>
                     <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                         <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-                            <li class="nav-item active"><a class="nav-link" th:href="@{/}">Home</a></li>
+                            <li class="nav-item">
+                                <a th:href="@{/common/productList}" class="nav-link" style="color: #384aeb">중고상품</a>
+                            </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Shop</a>
+                                   aria-expanded="false">커뮤니티</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="category.html">Shop Category</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
+                                    <li class="nav-item"><a class="nav-link" th:href="@{/free/freeList}">자유게시판</a></li>
+                                    <li class="nav-item"><a th:href="@{/food/foodList}" class="nav-link">식단표</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Blog</a>
+                                   aria-expanded="false">고객지원</a>
                                 <ul class="dropdown-menu">
-                                    <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
+                                    <li class="nav-item"><a class="nav-link" th:href="@{/notice/noticeList}">공지사항</a></li>
+                                    <li class="nav-item"><a class="nav-link" th:href="@{/faq/faqList}">FAQ</a></li>
                                 </ul>
                             </li>
                             <li class="nav-item submenu dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                                   aria-expanded="false">Pages</a>
-                                <ul class="dropdown-menu">
-                                    <!-- 로그인을 안 한 경우 -->
-                                    <th:block sec:authorize="isAnonymous()">
-                                    <li class="nav-item"><a class="nav-link" th:href="@{/common/login}">Login</a></li>
-                                    <li class="nav-item"><a class="nav-link" th:href="@{/common/join}">Join</a></li>
-                                    </th:block>
-
-                                    <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
-
-                                    <!-- 로그인을 한 경우 -->
-                                    <th:block sec:authorize="isAuthenticated()">
-                                        <li class="nav-item active">아이디: <span th:text="${#authentication.principal}"></span></li>
-                                        <li class="nav-item active">직급: <span th:text="${#authentication.authorities}"></span></li>
-                                    </th:block>
-
-                                    <!-- admin인 경우에 보여지도록 설정, spring el-->
-                                    <th:block sec:authorize="hasAuthority('ADMIN')">
-                                        <li class="nav-item"><a th:href="@{/admin/admIndex}" class="nav-link">관리자 페이지</a></li>
-                                    </th:block>
-
-                                    <!-- emp인 경우에 보여지도록 설정, Thymeleaf expression -->
-                                    <th:block sec:authorize="hasAuthority('EMP')">
-                                        <li class="nav-item"><a th:href="@{/emp/empIndex}" class="nav-link">직원 페이지</a></li>
-                                    </th:block>
-
-                                    <!-- user인 경우에 보여지도록 설정, Thymeleaf expression -->
-                                    <th:block sec:authorize="hasAuthority('USER')">
-                                        <li class="nav-item"><a th:href="@{/user/userIndex}" class="nav-link">마이 페이지</a></li>
-                                    </th:block>
-                                </ul>
+                                <a th:href="@{/}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">출석체크</a>
+<!--                                <ul class="dropdown-menu">-->
+<!--                                    <li class="nav-item"><a class="nav-link" th:href="@{/notice/noticeList}">공지사항</a></li>-->
+<!--                                    <li class="nav-item"><a class="nav-link" th:href="@{/faq/faqList}">FAQ</a></li>-->
+<!--                                </ul>-->
                             </li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 
-                            <!-- 로그인을 한 경우 -->
+                            <!-- 로그인을 안 한 경우 -->
+                            <th:block sec:authorize="isAnonymous()">
+                                <li class="nav-item">
+                                    <p class="nav-link" style="margin: 0;">|</p>
+                                </li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/common/login}">로그인</a></li>
+                                <li class="nav-item"><a class="nav-link" th:href="@{/common/join}">회원가입</a></li>
+                            </th:block>
+
+                            <!-- 마이페이지 -->
                             <th:block sec:authorize="isAuthenticated()">
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">마이페이지</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item">
+                                            <form th:action="@{/user/userIndex}" method="post">
+                                                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                                <input type="hidden" name="name" id="name" th:value="${#authentication.principal}">
+                                                <button type="submit" class="nav-link" style="border-style:none; text-align:left; width:100%;">내정보</button>
+                                            </form>
+                                        </li>
+                                        <li class="nav-item"><a th:href="@{/chat/chatList(name=${#authentication.principal})}" class="nav-link">채팅목록</a></li>
+                                        <li class="nav-item"><a th:href="@{/product/productList(name=${#authentication.principal})}" class="nav-link">판매목록</a></li>
+                                        <li class="nav-item"><a th:href="@{/product/productBuyerList(name=${#authentication.principal})}" class="nav-link">구매목록</a></li>
+
+                                    </ul>
+                                </li>
+                            </th:block>
+
+                            <!-- admin인 경우에 보여지도록 설정, spring el-->
+                            <th:block sec:authorize="hasAuthority('ADMIN')">
+                                <li class="nav-item submenu dropdown">
+                                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                       aria-expanded="false">관리자페이지</a>
+                                    <ul class="dropdown-menu">
+                                        <li class="nav-item"><a th:href="@{/admin/chatList}" class="nav-link">채팅방 관리</a></li>
+                                        <li class="nav-item"><a th:href="@{/admin/productList}" class="nav-link">중고상품 관리</a></li>
+                                    </ul>
+                                </li>
+                            </th:block>
+
+                            <!-- 로그인을 한 경우, 로그아웃 -->
+                            <th:block sec:authorize="isAuthenticated()">
+                                <li class="nav-item">
+                                    <p class="nav-link" style="margin: 0;">|</p>
+                                </li>
                                 <li class="nav-item">
                                     <form th:action="@{/logout}" method="post">
                                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                                        <button type="submit" class="nav-link" style="border-style: none; background-color: white">로그아웃</button>
+                                        <button type="submit" class="nav-link" style="border-style:none; background-color: white;">로그아웃</button>
                                     </form>
                                 </li>
                             </th:block>
-                        </ul>
 
-                        <ul class="nav-shop">
-                            <li class="nav-item"><button><i class="ti-search"></i></button></li>
-                            <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
-                            <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
+                            <!-- 로그인을 한 경우 -->
+                            <th:block sec:authorize="isAuthenticated()">
+                                <li class="nav-item"><span class="nav-link">[[${#authentication.principal}]]
+                                    &#x2764;&#xFE0F;</span></li>
+                            </th:block>
                         </ul>
                     </div>
                 </div>

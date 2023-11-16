@@ -2,9 +2,7 @@ package com.chunjae.edumarket.biz;
 
 import com.chunjae.edumarket.entity.ChatMessage;
 import com.chunjae.edumarket.entity.ChatRoom;
-import com.chunjae.edumarket.entity.ProductChat;
 import com.chunjae.edumarket.per.ChatMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +15,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Service
 public class ChatService {
-
-    private final ObjectMapper objectMapper;
     private Map<String, ChatRoom> chatRooms;
-    private Map<String, ProductChat> chatBuyerRooms;
-    private Map<String, ProductChat> chatSellerRooms;
     @Autowired
     private ChatMapper chatMapper;
 
@@ -72,4 +66,10 @@ public class ChatService {
     public int findChatDist(ChatRoom chatRoom) {
         return chatMapper.findChatDist(chatRoom);
     }
+
+    // 거래 완료된 채팅방 숨김처리
+    public int actUpdate(int pno) {return chatMapper.actUpdate(pno);}
+    
+    // 채팅방 비활성화
+    public int chatDsbld(String roomId) {return chatMapper.chatDsbld(roomId);}
 }

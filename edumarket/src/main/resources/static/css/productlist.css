@@ -1,0 +1,19 @@
+.pro-img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+#myTable td {
+    height: 250px;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+td p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100px;
+    height: 20px;
+}

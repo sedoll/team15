@@ -9,6 +9,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,8 +23,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -25,6 +39,13 @@ import java.util.List;
 @CrossOrigin("http://localhost:8085")
 @RequestMapping("/common/*")
 public class CommonController {
+
+    // 실제 업로드 디렉토리
+    // thymeleaf 에서는 외부에 지정하여 사용해야 한다.
+    // jsp와는 다르게 webapp이 없기 때문이다.
+    // resources는 정적이라 업데이트 되어도 파일을 못 찾기에 서버를 재 시작 해야함
+    @Value("${spring.servlet.multipart.location}")
+    String uploadFolder;
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -146,48 +167,71 @@ public class CommonController {
     @GetMapping("productList")
     public String productList(Model model) throws Exception {
         List<Product> productList = productService.productList();
-//        List<FileVO> fileboardList = productService.getFileList();
+        List<FileDTO> fileList = new ArrayList<>();
+        for (Product pro:productList) {
+            FileDTO dto = productService.thmbn(pro.getNo());
+            fileList.add(dto);
+        }
 //        log.info(fileboardList.toString());
         model.addAttribute("productList", productList);
+        model.addAttribute("fileList", fileList);
         return "product/productList";
     }
 
     // getFileboard
     // 판매 페이지 상세
     @GetMapping("getProduct")
-    public String getFileboard(@RequestParam("no") int no, Model model, HttpServletRequest request) throws Exception {
+    public String getFileboard(@RequestParam("no") int no, Model model, HttpServletRequest req) throws Exception {
         FileVO fileboard = new FileVO();
-//        sqlSession.update("fileboard.countUp", postNo);
-        Product product = productService.getProduct(no);
-        List<FileDTO> fileList = productService.getFileGroupList(no);
+
+        HttpSession session = req.getSession();
+        Cookie[] cookieFromRequest = req.getCookies();
+        String cookieValue = null;
+        for(int i = 0 ; i<cookieFromRequest.length; i++) {
+            // 요청정보로부터 쿠키를 가져온다.
+            cookieValue = cookieFromRequest[0].getValue();  // 테스트라서 추가 데이터나 보안사항은 고려하지 않으므로 1번째 쿠키만 가져옴
+        }
+
+        // 쿠키 세션 입력
+        if (session.getAttribute(no+":cookieFile") == null) {
+            session.setAttribute(no+":cookieFile", no + ":" + cookieValue);
+        } else {
+            session.setAttribute(no+":cookieFile ex", session.getAttribute(no+":cookieFile"));
+            if (!session.getAttribute(no+":cookieFile").equals(no + ":" + cookieValue)) {
+                session.setAttribute(no+":cookieFile", no + ":" + cookieValue);
+            }
+        }
+
+        // 쿠키와 세션이 없는 경우 조회수 카운트
+        if (!session.getAttribute(no+":cookieFile").equals(session.getAttribute(no+":cookieFile ex"))) {
+            productService.countUp(no);
+        }
+        
+        Product product = productService.getProduct(no); // 중고 게시글 관련 정보
+        List<FileDTO> fileList = productService.getFileGroupList(no); // 해당 게시글의 파일 목록
         fileboard.setFileBoard(product);
         fileboard.setFileList(fileList);
-//        HttpSession session = request.getSession();
-//        Cookie[] cookieFromRequest = request.getCookies();
-//        String cookieValue = null;
-//        for(int i = 0 ; i<cookieFromRequest.length; i++) {
-//            // 요청정보로부터 쿠키를 가져온다.
-//            cookieValue = cookieFromRequest[0].getValue();  // 테스트라서 추가 데이터나 보안사항은 고려하지 않으므로 1번째 쿠키만 가져옴
-//        }
-//        // 쿠키 세션 입력
-//        if (session.getAttribute(no+":cookieFile") == null) {
-//            session.setAttribute(no+":cookieFile", no + ":" + cookieValue);
-//        } else {
-//            session.setAttribute(no+":cookieFile ex", session.getAttribute(no+":cookieFile"));
-//            if (!session.getAttribute(no+":cookieFile").equals(no + ":" + cookieValue)) {
-//                session.setAttribute(no+":cookieFile", no + ":" + cookieValue);
-//            }
-//        }
-//// 쿠키와 세션이 없는 경우 조회수 카운트
-//        if (!session.getAttribute(no+":cookieFile").equals(session.getAttribute(no+":cookieFile ex"))) {
-////            productService.countUp(no);
-//            fileboard.getFileBoard().setCnt(fileboard.getFileBoard().getCnt()+1);
-//        }
+
         log.info(fileboard.toString());
         model.addAttribute("product", fileboard.getFileBoard());
         model.addAttribute("fileList", fileboard.getFileList());
         return "product/getProduct";
     }
 
-    
+    // 중고 게시글 관련 이미지
+    // 다른 디렉토리에 저장된 이미지 보기
+    @GetMapping("image")
+    public ResponseEntity<Resource> download(@ModelAttribute FileDTO dto) throws IOException {
+        Path path = Paths.get(uploadFolder + "/" + dto.getSavefile());
+        String contentType = Files.probeContentType(path);
+        // header를 통해서 다운로드 되는 파일의 정보를 설정한다.
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename(dto.getOriginfile(), StandardCharsets.UTF_8)
+                .build());
+        headers.add(HttpHeaders.CONTENT_TYPE, contentType);
+
+        Resource resource = new InputStreamResource(Files.newInputStream(path));
+        return new ResponseEntity<>(resource, headers, HttpStatus.OK);
+    }
 }

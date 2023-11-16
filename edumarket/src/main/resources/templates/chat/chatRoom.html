@@ -10,30 +10,77 @@
             max-height: 500px;
             max-width: 300px;
             overflow-y: scroll;
+            margin: 10px auto;
+        }
+
+        .input-group{
+            max-width: 500px;
+            margin: 10px auto;
+        }
+
+        /* 내가 보낸 메시지 */
+        .my-message {
+            text-align: right;
+            background-color: #6a87e7;
+            color: #333;
+            border-radius: 15px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 다른 사람이 보낸 메시지 */
+        .others-message {
+            text-align: left;
+            background-color: #E2E2E2;
+            color: #333;
+            border-radius: 15px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
-<div class="container">
-    <h2 style="text-align: center;">채팅</h2>
-    <!--    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />-->
-    <div class="input-group">
-        <input type="text" class="form-control" id="content" placeholder="보낼 메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
-        <div class="input-group-append">
-            <input type="hidden" id="id" th:value="${#authentication.principal}">
-            <input type="hidden" id="roomId" th:value="${roomId}" />
-            <button type="button" value="전송" class="btn btn btn-outline-primary" id="sendBtn" onclick="sendMsg()">전송</button>
-            <button type="button" value="방나가기" class="btn btn-outline-danger" onclick="quit()">방 나가기 </button>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>채팅</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">채팅</li>
+                    </ol>
+                </nav>
+            </div>
         </div>
     </div>
-    <div>
-        <div style="text-align: center"><h3>채팅 내역</h3></div>
-        <div id="chat">
-            <th:block th:each="msg : ${chat}">
-                <div>[[${msg.sender}]] : [[${msg.message}]]</div>
-            </th:block>
-            <div class="msgArea"></div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div style="min-height: 100vh">
+    <div class="container con-tb">
+        <div>
+            <div id="chat">
+                <th:block th:each="msg : ${chat}">
+                    <div th:class="${msg.sender == #authentication.principal ? 'my-message' : 'others-message'}">
+                        [[${msg.sender}]] : [[${msg.message}]]
+                    </div>
+                </th:block>
+                <div class="msgArea"></div>
+            </div>
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" id="content" placeholder="보낼 메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+                <input type="hidden" id="id" th:value="${#authentication.principal}">
+                <input type="hidden" id="roomId" th:value="${roomId}" />
+                <button type="button" value="전송" class="btn btn btn-outline-primary" id="sendBtn" onclick="sendMsg()">전송</button>
+                <button type="button" value="방나가기" class="btn btn-outline-danger" onclick="quit()">방 나가기 </button>
+            </div>
         </div>
     </div>
 </div>
@@ -41,7 +88,12 @@
 
 <!-- region websocket, 채팅 부분 js -->
 <script th:inline="javascript">
-    let socket = new WebSocket("ws://localhost:8085/ws/chat");
+    // 환경에 따라 값을 조금 바꿔야 한다.
+    let chatInsertUrl = "/team15/chat/insertChat";
+    let chatListUrl = "/team15/chat/chatList";
+    let chatUrl = "ws://localhost:8085/team15/ws/chat";
+
+    let socket = new WebSocket(chatUrl);
     let roomId = document.getElementById('roomId').value;
     let id = document.getElementById('id').value;
 
@@ -55,7 +107,7 @@
     socket.onclose = function (e) {
         console.log('disconnet');
         console.log('WebSocket closed:', e);
-        location.href = "/chat/chatList";
+        location.href = chatListUrl;
     };
 
     // 에러발생
@@ -68,6 +120,7 @@
         console.log(e.data);
         // JSON 문자열을 JavaScript 객체로 파싱
         let messageData = JSON.parse(e.data);
+        let id = $("#id").val();
 
         // sender와 message를 추출
         let sender = messageData.sender;
@@ -76,12 +129,21 @@
         let msgArea = document.querySelector('.msgArea');
         let newMsg = document.createElement('div');
         newMsg.innerText = `${sender} : ${message}`;
+        // id와 sender 값 비교하여 클래스 추가
+        console.log(id);
+        console.log(sender);
+        if (id === sender) {
+            newMsg.className = 'my-message'; // 내 메시지일 경우
+        } else {
+            newMsg.className = 'others-message'; // 다른 사용자의 메시지일 경우
+        }
         msgArea.append(newMsg);
         scrollDown();
     };
 
     // 채팅방에 들어오는 경우
     function enterRoom(socket) {
+        // Retrieve the CSRF token from the hidden input field
         var enterMsg = {
             "type": "ENTER",
             "roomId": roomId,
@@ -107,14 +169,15 @@
         // ajax 요청
         $.ajax({
             type: "POST",
-            url: "/chat/insertChat",
+            url: chatInsertUrl,
             data: talkMsg,
             cache: false,
             success: function(result) {
             },
             error: function (err) {
                 console.log(err)
-            }, beforeSend: function (xhr) {
+            },
+            beforeSend: function (xhr) {
                 xhr.setRequestHeader(header, token);
             },
         });
@@ -129,7 +192,7 @@
             "message": ""
         };
         socket.send(JSON.stringify(quitMsg));
-        location.href = "/chat/chatList";
+        location.href = chatListUrl;
         socket.close();
     }
 

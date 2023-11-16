@@ -1,9 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.chunjae.edumarket.per.ProductMapper">
+    <!-- 모든 게시글 목록, 리스트 -->
+    <select id="getAdmProductList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product order by no desc
+    </select>
     <!-- 게시글 목록, 리스트 -->
     <select id="getProductList" resultType="com.chunjae.edumarket.entity.Product">
-        select * from product order by no desc
+        select * from product where act='JOIN' order by no desc
+    </select>
+    <!-- 최근 게시글 목록, 리스트 -->
+    <select id="productListRecent" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where act='JOIN' order by no desc limit 8
+    </select>
+    <!-- 내 게시글 목록, 리스트 -->
+    <select id="getMyProductList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where id = #{id} order by no desc
+    </select>
+    <!-- 내 구매 목록, 리스트 -->
+    <select id="productBuyerList" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where buyer = #{id} order by no desc
     </select>
     <!-- 게시글 목록, 리스트 -->
     <select id="getFileList" resultType="com.chunjae.edumarket.entity.Product">
@@ -13,9 +29,9 @@
     <select id="getProduct" resultType="com.chunjae.edumarket.entity.Product">
         select * from product where no = #{no}
     </select>
-    <!-- 게시글수정 -->
-    <update id="updatFile">
-        UPDATE product SET title=#{title}, content=#{content} WHERE id = #{id}
+    <!-- 게시글 수정 -->
+    <update id="productUpdate">
+        UPDATE product SET title=#{title}, content=#{content}, cate=#{cate} WHERE no = #{no}
     </update>
     <!-- 게시판 삭제 -->
     <delete id="deleFile">
@@ -37,10 +53,6 @@
     <select id="getFileGroupList" resultType="com.chunjae.edumarket.entity.FileDTO">
         select * from fileobj where pno=#{pno}
     </select>
-    <!-- 파일 상세보기 -->
-    <select id="fileDetail" resultType="com.chunjae.edumarket.entity.FileDTO">
-        select * from fileobj where no=#{no}
-    </select>
     <!-- 파일 수 카운트 -->
     <select id="totalFileCount" resultType="integer" >
         select count(*) from fileobj
@@ -58,11 +70,11 @@
         </choose>
     </insert>
     <!-- 글번호가 같은 파일 제거 -->
-    <delete id="fileDelete">
+    <delete id="removeFileAll">
         delete from fileobj where pno=#{pno}
     </delete>
     <!-- 하나의 파일만 제거 -->
-    <delete id="fileObjDelete">
+    <delete id="fileRemove">
         delete from fileobj where no=#{no}
     </delete>
     <!-- 파일 자료 수정하기 -->
@@ -70,11 +82,11 @@
     <!--		update fileobj set saveFolder=#{saveFolder}, originFile=#{originFile}, saveFile=#{saveFile}, fileSize=#{fileSize}, uploadDate=#{uploadDate} where pno=#{pno}-->
     <!--	</update>-->
     <update id="fileboardUpdate">
-        update fileboard set title=#{title}, content=#{content} where pno=#{pno}
+        update product set title=#{title}, content=#{content}, cate=#{cate} where no=#{no}
     </update>
     <insert id="fileUpdate">
         <choose>
-            <when test="originFile != null and originFile.trim() != ''">
+            <when test="originfile != null and originfile.trim() != ''">
                 insert into fileobj values (default, #{pno}, #{savefolder}, #{originfile}, #{savefile}, #{filesize}, #{uploaddate})
             </when>
             <otherwise>
@@ -97,7 +109,7 @@
     </select>
     <!-- 중고 판매 게시글 추가 -->
     <insert id="fileBoardInsert">
-        insert into product values(default, #{id}, #{title}, #{content}, default, default, default, #{addr})
+        insert into product values(default, #{id}, #{cate}, #{title}, #{content}, #{price}, default, default, default, #{addr}, default)
     </insert>
     <!-- 파일 자료 수정하기 -->
     <update id="fileboardEdit">
@@ -109,6 +121,14 @@
     </delete>
     <!-- 파일 자료 상세보기시 읽은 횟수 증가 -->
     <update id="countUp">
-        update product set visited=visited+1 where no=#{no}
+        update product set cnt=cnt+1 where no=#{no}
+    </update>
+    <!-- 썸네일 이미지 가져오기 -->
+    <select id="thmbn" resultType="com.chunjae.edumarket.entity.FileDTO">
+        select * from fileobj where pno=#{no} limit 1
+    </select>
+    <!-- 거래 완료 처리 -->
+    <update id="actUpdate">
+        update product set act='DSBLD', buyer=#{buyer} where no=#{no}
     </update>
 </mapper>

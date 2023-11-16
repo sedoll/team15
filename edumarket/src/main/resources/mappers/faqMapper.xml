@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.FaqMapper">
+
+    <!--  목록 출력 -->
+    <select id="faqList" resultType="com.chunjae.edumarket.entity.Faq">
+        select * from faq order by fno desc
+    </select>
+
+
+</mapper>

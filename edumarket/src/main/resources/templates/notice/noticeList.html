@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/head :: head">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        .breadcrumb a { color: #464646; }
+
+        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&display=swap');
+
+        .table {
+            font-size: 1.25rem;
+            border-top: 2px solid #dee2e6;
+            border-bottom: 1px solid #dbdbdb;;
+        }
+        .table th {
+            white-space: nowrap;
+            background: #eff1f8;
+        }
+        .table td {
+            white-space: nowrap;
+        }
+        .table td, .table th {
+            padding: 0.75em 0.75em;
+        }
+
+        .item1 { width:6%; }
+        .item2 { width:64%; }
+        .item3 { width:10%; }
+        .item4 { width:10%; }
+        .item5 { width:10%; }
+
+
+    </style>
+</head>
+<body>
+<div th:replace="layout/header :: header"></div>
+<div class="container">
+    <p class="title has-text-centered mt-1 mb-2"></p>
+    <div class="search_from">
+        <select name="select_filter" class="select_filter">
+            <option value="0">번호</option>
+            <option value="1">제목</option>
+            <option value="4">게시일</option>
+        </select>
+        <input type="text" name="search_filter" class="search_filter">
+    </div>
+    <div class="columns is-multiline mt-1 mx-5">
+        <div class="column is-12">
+            <table class="table is-centered is-fullwidth" id="myTable">
+                <thead>
+                <tr>
+                    <th class="item1" scope="col" style="text-align: center">번호</th>
+                    <th class="item2" scope="col" style="text-align: center">제목</th>
+                    <th class="item3" scope="col" style="text-align: center">작성자</th>
+                    <th class="item4" scope="col" style="text-align: center">게시일</th>
+                    <th class="item5" scope="col" style="text-align: center">조회수</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="notice : ${noticeList}">
+                    <td th:text="${notice.no}" style="text-align: center"></td>
+                    <td style="text-align: center">
+                        <a th:href="@{/notice/noticeDetail(no=${notice.no})}" class="al" th:text="${notice.title}"></a>
+                    </td>
+                    <td style="text-align: center">관리자</td>
+                    <td th:text="${notice.resdate}" style="text-align: center"></td>
+                    <td th:text="${notice.visit}" style="text-align: center"></td>
+                </tr>
+                </tbody>
+            </table>
+            <br>
+            <th:block sec:authorize="hasAuthority('ADMIN')">
+                <a th:href="@{/notice/noticeInsert(name=${#authentication.principal})}" class="button is-link is-medium" style="float: right">글쓰기</a>
+            </th:block>
+            <br>
+            <br>
+        </div>
+    </div>
+</div>
+<div th:replace="layout/footer :: footer"></div>
+<script th:src="@{/js/datatables.js}"></script>
+</body>
+</html>

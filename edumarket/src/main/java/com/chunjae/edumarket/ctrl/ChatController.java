@@ -8,7 +8,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -37,11 +40,11 @@ public class ChatController {
         int ck = chatService.findChatDist(chatRoom); // 채팅방이 존재하는지 안하는지 검사
         if(ck == 0) {
             int ck2 = chatService.createRoom(chatRoom);
-            return "redirect:/chat/chatList";  //만든사람이 채팅방 1빠로 들어가게 됩니다
+            return "redirect:chat/chatList";  //만든사람이 채팅방 1빠로 들어가게 됩니다
         } else {
             res.setContentType("text/html;charset=UTF-8");
             PrintWriter out = res.getWriter();
-            out.println("<script>alert('해당 판매자와의 채팅방이 존재합니다.'); window.location.href='/common/getProduct?no=" + chatRoom.getPno() + "';</script>");
+            out.println("<script>alert('해당 판매자와의 채팅방이 존재합니다.'); window.location.href='/team15/common/getProduct?no=" + chatRoom.getPno() + "';</script>");
             out.flush();
             return null;  // You can also return an empty string or another view name if needed
 //            return "redirect:/common/getProduct?no="+chatRoom.getPno();
@@ -59,7 +62,6 @@ public class ChatController {
     
     // 채팅내역 db에 저장
     @PostMapping("insertChat")
-    @ResponseBody
     public void insertChat(ChatMessage chatMsg) throws Exception{
         chatService.insertChat(chatMsg);
     }

@@ -35,4 +35,12 @@
     <insert id="insertChat">
         insert into chatmsg values(default, #{roomId}, #{type}, #{sender}, #{message}, default)
     </insert>
+    <!-- 거래 완료된 상품의 채팅방 DSBLD 처리 -->
+    <update id="actUpdate">
+        update chatroom set act='DSBLD' where pno=#{pno}
+    </update>
+    <!-- 채팅방 비활성화(DSBLD) 처리 -->
+    <update id="chatDsbld">
+        update chatroom set act='DSBLD' where room_id=#{roomId}
+    </update>
 </mapper>

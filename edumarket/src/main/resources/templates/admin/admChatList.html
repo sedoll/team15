@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지</title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+</head>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>관리자페이지</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">채팅관리</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div style="min-height: 100vh">
+    <div class="container con-tb">
+        <th:block sec:authorize="isAuthenticated()">
+            <div class="search_from">
+                <select name="select_filter" class="select_filter">
+                    <option value="0">상태</option>
+                    <option value="1">상품이름</option>
+                    <option value="2">구매자</option>
+                    <option value="3">판매자</option>
+                </select>
+                <input type="text" name="search_filter" class="search_filter">
+            </div>
+            <table class="table" id="myTable">
+                <thead class="thead-light">
+                <tr>
+                    <th>상태</th>
+                    <th>상품이름</th>
+                    <th>구매자</th>
+                    <th>판매자</th>
+                    <th>비고</th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="room : ${roomList}">
+                    <tr>
+                        <td>
+                            <th:block th:if="${room.act} eq 'JOIN'">
+                                <p style="color: blue">Enable</p>
+                            </th:block>
+                            <th:block th:if="${room.act} eq 'DSBLD'">
+                                <p style="color: red">Disable</p>
+                            </th:block>
+                        </td>
+                        <td>[[${room.name}]]</td>
+                        <td>[[${room.buyer}]]</td>
+                        <td>[[${room.seller}]]</td>
+                        <td><a th:href="@{/chat/chatRoom(roomId=${room.roomId})}"
+                               class="btn btn-primary">들어가기</a>
+                            <th:block th:if="${room.act} eq 'JOIN'">
+                                <a th:href="@{/admin/chatDsbld(roomId=${room.roomId})}"
+                                   class="btn btn-danger">비활성화</a>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </th:block>
+    </div>
+</div>
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<script th:src="@{/js/datatables.js}"></script>
+</body>
+</html>
