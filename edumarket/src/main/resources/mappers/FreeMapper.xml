@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.FreeMapper">
+<!--    List<Free> getFreeList(); // 리스트 목록-->
+<!--    Free getFree(Integer no); // 상세-->
+<!--    int insertFree(Free free); // 추가-->
+<!--    int updateFree(Free free); // 수정-->
+<!--    int deleteFree(Integer no); // 삭제-->
+
+<!--    List<FreeComment> commentList(Integer par);-->
+<!--    int insertFreeComment(Comment comment);-->
+<!--    FreeComment getFreeComment(Integer no);-->
+<!--    int updateFreeComment(Comment comment);-->
+<!--    int deleteFreeComment(Integer no);-->
+
+    <select id="getFreeList" resultType="com.chunjae.edumarket.entity.Free">
+        select * from free order by no desc
+    </select>
+
+    <select id="getFree" resultType="com.chunjae.edumarket.entity.Free">
+        select * from free where no =#{no}
+    </select>
+
+    <insert id="insertFree">
+        insert into free values (default, #{id}, #{title}, #{content}, default, default)
+    </insert>
+
+    <update id="updateFree">
+        update free set title=#{title}, content=#{content} where no =#{no}
+    </update>
+
+    <delete id="deleteFree">
+        delete from free where no = #{no}
+    </delete>
+
+    <!--조회수-->
+    <update id="visitCount">
+        update free set visit = visit+1 where no=#{no}
+    </update>
+
+    <!--댓글-->
+
+    <select id="commentList" resultType="com.chunjae.edumarket.entity.FreeComment">
+        select * from freeComment where par = #{par}
+    </select>
+
+    <insert id="insertFreeComment">
+        insert into freeComment values (default, #{id}, #{content}, default, #{par})
+    </insert>
+
+    <select id="getFreeComment" resultType="com.chunjae.edumarket.entity.FreeComment">
+        select * from freeComment where no = #{no}
+    </select>
+
+    <update id="updateFreeComment">
+        update freeComment set content=#{content} where no = #{no}
+    </update>
+
+    <delete id="deleteFreeComment">
+        delete from freeComment where no=#{no}
+    </delete>
+</mapper>

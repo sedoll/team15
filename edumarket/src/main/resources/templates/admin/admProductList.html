@@ -72,7 +72,7 @@
                     <p><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></p>
                 </td>
                 <td>
-                    <p>[[${product.price}]]</p>
+                    <p th:text="${product.price eq 0 ? '무료나눔' : product.price}"></p>
                 </td>
                 <td>
                     <p th:text="${#strings.substring(product.resdate, 0, 10)}"></p>

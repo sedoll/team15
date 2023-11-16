@@ -174,3 +174,44 @@ CREATE TABLE school(
 SELECT * FROM school;
 
 SELECT * FROM school WHERE sc_name LIKE CONCAT('%','신구로', '%') limit 1
+
+
+CREATE table notice(
+	no INT AUTO_INCREMENT PRIMARY KEY, -- 번호
+	title VARCHAR(200) NOT NULL, -- 제목
+	content VARCHAR(2000) NOT NULL, -- 내용
+	resdate TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- 작성일
+	visit int DEFAULT 0 -- 조회수
+);
+INSERT INTO notice VALUES(
+	DEFAULT,
+	'공지사항1',
+	'공지사항1',
+	DEFAULT,
+	DEFAULT
+);
+--  자주 묻는 질문(faq)
+CREATE TABLE faq (
+	fno INT AUTO_INCREMENT PRIMARY KEY,
+	question VARCHAR(1000) NOT NULL,
+	answer VARCHAR(1000) NOT NULL,
+	cnt INT DEFAULT 0 NOT NULL
+);
+SELECT * FROM faq;
+-- 자유게시판 (free)
+CREATE TABLE free(
+	no int PRIMARY KEY AUTO_INCREMENT, -- 번호
+	id VARCHAR(20) NOT NULL, -- 작성자
+	title VARCHAR(100) NOT NULL,
+	content VARCHAR(1000),
+	visit INT DEFAULT 0,
+	resdate DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+-- 자유게시판 댓글
+CREATE TABLE freeComment(
+	no INT PRIMARY KEY AUTO_INCREMENT, -- 댓글 번호
+	id VARCHAR(20) NOT NULL, -- 작성자
+	content VARCHAR(300) NOT NULL, -- 내용
+	resdate DATETIME DEFAULT CURRENT_TIMESTAMP,
+	par INT -- 게시판 글 번호
+);
