@@ -59,7 +59,7 @@
             <tbody>
             <tr th:each="product, status : ${productList}">
                 <td style="width: 250px;">
-                    <img class="pro-img" th:src="${'/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
+                    <img class="pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
                          alt="">
                 </td>
                 <td>

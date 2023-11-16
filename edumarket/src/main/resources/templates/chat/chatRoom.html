@@ -88,7 +88,12 @@
 
 <!-- region websocket, 채팅 부분 js -->
 <script th:inline="javascript">
-    let socket = new WebSocket("ws://localhost:8085/ws/chat");
+    // 환경에 따라 값을 조금 바꿔야 한다.
+    let chatInsertUrl = "/team15/chat/insertChat";
+    let chatListUrl = "/team15/chat/chatList";
+    let chatUrl = "ws://localhost:8085/team15/ws/chat";
+
+    let socket = new WebSocket(chatUrl);
     let roomId = document.getElementById('roomId').value;
     let id = document.getElementById('id').value;
 
@@ -102,7 +107,7 @@
     socket.onclose = function (e) {
         console.log('disconnet');
         console.log('WebSocket closed:', e);
-        location.href = "/chat/chatList";
+        location.href = chatListUrl;
     };
 
     // 에러발생
@@ -164,7 +169,7 @@
         // ajax 요청
         $.ajax({
             type: "POST",
-            url: "/chat/insertChat",
+            url: chatInsertUrl,
             data: talkMsg,
             cache: false,
             success: function(result) {
@@ -187,7 +192,7 @@
             "message": ""
         };
         socket.send(JSON.stringify(quitMsg));
-        location.href = "/chat/chatList";
+        location.href = chatListUrl;
         socket.close();
     }
 
