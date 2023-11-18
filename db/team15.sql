@@ -135,7 +135,7 @@ create table black_list (
 	sbscr varchar(20) NOT NULL COMMENT '등록자',
 	black varchar(20) NOT NULL COMMENT '차단아이디',
 	FOREIGN KEY(sbscr) REFERENCES euser(name) ON DELETE CASCADE,
-	FOREIGN KEY(black) REFERENCES euser(name) ON DELETE CASCADE,
+	FOREIGN KEY(black) REFERENCES euser(name) ON DELETE CASCADE
 );
 
 -- 중고상품에 따른 채팅방 활성화 상태
@@ -215,3 +215,10 @@ CREATE TABLE freeComment(
 	resdate DATETIME DEFAULT CURRENT_TIMESTAMP,
 	par INT -- 게시판 글 번호
 );
+
+-- 출석체크
+CREATE TABLE attendance (
+   ano INT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 출석체크 번호
+   id VARCHAR(20),											-- 회원 아이디
+   attend DATE DEFAULT CURRENT_DATE,					-- 출석날짜
+	givaway VARCHAR(50));									-- 경품
