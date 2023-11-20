@@ -4,6 +4,7 @@ import com.chunjae.edumarket.entity.FileDTO;
 import com.chunjae.edumarket.entity.FileVO;
 import com.chunjae.edumarket.entity.Product;
 import com.chunjae.edumarket.per.ProductMapper;
+import com.chunjae.edumarket.utils.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +23,20 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.getAdmProductList();
     }
 
+    @Override
+    public int getTotal(Page page) throws Exception {
+        return productMapper.getTotal(page);
+    }
+
     // 게시글 목록 보기
     @Override
     public List<Product> productList() {
         return productMapper.getProductList();
+    }
+
+    @Override
+    public List<Product> productListWithPage(Page page) {
+        return productMapper.productListWithPage(page);
     }
 
     // 게시글 목록 보기
