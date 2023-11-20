@@ -14,118 +14,107 @@
   </style>
 </head>
 <body>
-  <!--================ Start Header Menu Area =================-->
-  <th:block th:replace="layout/header :: headerFragment"></th:block>
-  <!--================ End Header Menu Area =================-->
-  <img src="img/banner1.png" alt="배너1" style="    border-radius: 85px;margin: 0 auto; display: block;">
-  <main class="site-main">
-    
-    <!--================ Hero banner start =================-->
-
-    <!--================ Hero banner start =================-->
-
-
-
-    <!-- ================ trending product section start ================= -->  
-    <section class="section-margin calc-60px">
-      <div class="container">
-        <div class="section-intro pb-60px">
-          <h2><span class="section-intro__style">중고상품</span></h2>
-          <br>
-          <p style="font-size: 20px">셀파몰의 최신 중고상품을 만나보세요!</p>
-        </div>
-        <div class="row">
-          <th:block th:each="product, status : ${productList}">
-            <div class="col-md-6 col-lg-4 col-xl-3">
-              <div class="card text-center card-product">
-                <div class="card-product__img">
-                  <img class="card-img pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).getSavefile()+'&originfile='+fileList.get(status.index).getOriginfile()}" th:alt="이미지+${status.count}">
-                </div>
-                <div class="card-body">
-                  <p>[[${product.cate}]]</p>
-                  <h4 class="card-product__title"><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></h4>
-                  <p class="card-product__price" th:text="${product.price eq 0 ? '무료나눔' : product.price}"></p>
-                </div>
-              </div>
-            </div>
-          </th:block>
-        </div>
+<!--================ Start Header Menu Area =================-->
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+<!--================ End Header Menu Area =================-->
+<img src="img/banner1.png" alt="배너1" style="    border-radius: 85px;margin: 0 auto; display: block;">
+<main class="site-main">
+  <!-- ================ trending product section start ================= -->
+  <section class="section-margin calc-60px">
+    <div class="container">
+      <div class="section-intro pb-60px">
+        <h2><span class="section-intro__style">중고상품</span></h2>
+        <br>
+        <p style="font-size: 20px">셀파몰의 최신 중고상품을 만나보세요!</p>
       </div>
-    </section>
-    <!-- ================ trending product section end ================= -->  
-
-    <!-- ================ Blog section start ================= -->  
-    <section class="blog">
-      <div class="container">
-        <div class="section-intro pb-60px">
-          <h2><span class="section-intro__style">교육뉴스</span></h2>
-          <br>
-          <p style="font-size: 20px">꼭 필요한 정보를 확인해요!</p>
+      <div class="row">
+        <th:block th:each="product, status : ${productList}">
+          <div class="col-md-6 col-lg-4 col-xl-3">
+            <div class="card text-center card-product">
+              <div class="card-product__img">
+                <!--                  <img class="card-img pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).getSavefile()+'&originfile='+fileList.get(status.index).getOriginfile()}" th:alt="이미지+${status.count}">-->
+              </div>
+              <div class="card-body">
+                <p>[[${product.cate}]]</p>
+                <h4 class="card-product__title"><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></h4>
+                <p class="card-product__price" th:text="${product.price eq 0 ? '무료나눔' : product.price}"></p>
+              </div>
+            </div>
+          </div>
+        </th:block>
+      </div>
+    </div>
+  </section>
+  <!-- ================ trending product section end ================= -->
+  <!-- ================ Blog section start ================= -->
+  <section class="blog">
+    <div class="container">
+      <div class="section-intro pb-60px">
+        <h2><span class="section-intro__style">교육뉴스</span></h2>
+        <br>
+        <p style="font-size: 20px">셀파몰에서 꼭 필요한 정보를 확인해요!</p>
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+          <div class="card card-blog">
+            <div class="card-blog__img">
+              <img class="card-img" src="img/급식.png" style="border-radius: 30px ">
+            </div>
+            <div class="card-body" style="text-align: center">
+              <ul class="card-blog__info">
+                <li>By 관리자</li>
+              </ul>
+              <h4 class="card-blog__title"><a th:href="@{/food/foodList}">전국의 학교들의 급식 메뉴</a></h4>
+              <p>간편하게 셀파몰에서 원하는 지역이나 <br> 학교의 급식 내용을 쉽게 찾아봐요! <br> 신속하게 급식 정보를 확인하고, <br>건강한 식습관을 챙겨요.</p>
+              <a class="card-blog__link" th:href="@{/food/foodList}">지금 바로 확인하기 <i class="ti-arrow-right"></i></a>
+            </div>
+          </div>
         </div>
-
-        <div class="row">
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card card-blog">
-              <div class="card-blog__img">
-                <img class="card-img" src="img/급식.png" style="border-radius: 30px">
-              </div>
-              <div class="card-body">
-                <ul class="card-blog__info">
-                  <li><a href="#">By Admin</a></li>
-                  <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                </ul>
-                <h4 class="card-blog__title"><a href="single-blog.html">The Richland Center Shooping News and weekly shooper</a></h4>
-                <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+          <div class="card card-blog">
+            <div class="card-blog__img">
+              <img class="card-img" src="img/사기.png" style="border-radius: 30px">
+            </div>
+            <div class="card-body" style="text-align: center">
+              <ul class="card-blog__info">
+                <li><a href="#">By 관리자</a></li>
+              </ul>
+              <h4 class="card-blog__title"><a th:href="@{/notice/noticeDetail?no=1}">선생님들 만을 위한 중고 제품 판매</a></h4>
+              <p>
+                구할 수 없는 교재, 교육 도구 등을 공유하고 <br> 필요한 자료를 구해보아요! <br>
+                선생님들의 안전한 거래를 위해 <br> 오세훈 변호사를 만나보았습니다.
+              </p>
+              <a class="card-blog__link" th:href="@{/notice/noticeDetail?no=1}">지금 바로 확인하기 <i class="ti-arrow-right"></i></a>
             </div>
           </div>
-
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card card-blog">
-              <div class="card-blog__img">
-                <img class="card-img" src="img/사기.png" style="border-radius: 30px">
-              </div>
-              <div class="card-body">
-                <ul class="card-blog__info">
-                  <li><a href="#">By Admin</a></li>
-                  <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                </ul>
-                <h4 class="card-blog__title"><a href="single-blog.html">The Shopping News also offers top-quality printing services</a></h4>
-                <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
+        </div>
+        <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
+          <div class="card card-blog">
+            <div class="card-blog__img">
+              <img class="card-img" src="img/출첵.png" style="border-radius: 30px">
             </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
-            <div class="card card-blog">
-              <div class="card-blog__img">
-                <img class="card-img" src="img/출첵.png" style="border-radius: 30px">
-              </div>
-              <div class="card-body">
-                <ul class="card-blog__info">
-                  <li><a href="#">By Admin</a></li>
-                  <li><a href="#"><i class="ti-comments-smiley"></i> 2 Comments</a></li>
-                </ul>
-                <h4 class="card-blog__title"><a href="single-blog.html">Professional design staff and efficient equipment you’ll find we offer</a></h4>
-                <p>Let one fifth i bring fly to divided face for bearing divide unto seed. Winged divided light Forth.</p>
-                <a class="card-blog__link" href="#">Read More <i class="ti-arrow-right"></i></a>
-              </div>
+            <div class="card-body" style="text-align: center">
+              <ul class="card-blog__info">
+                <li><a href="#">By 관리자</a></li>
+              </ul>
+              <h4 class="card-blog__title"><a href="single-blog.html">셀파몬의 출석체크</a></h4>
+              <p>
+                번거로운 절차 없이 <br> 간편하게 출석을 기록하고 확인할 수 있어요! <br>
+                출석체크 하시고 <br> 추첨을 통해 쿠폰을 드립니다 :)
+              </p>
+              <a class="card-blog__link" href="#">지금 바로 확인하기 <i class="ti-arrow-right"></i></a>
             </div>
           </div>
         </div>
       </div>
-    </section>
-    <!-- ================ Blog section end ================= -->
-    <br>
-    <br>
-
-  </main>
-
-
-  <!--================ Start footer Area  =================-->
-  <th:block th:replace="layout/footer :: footerFragment"></th:block>
-  <!--================ End footer Area  =================-->
+    </div>
+  </section>
+  <!-- ================ Blog section end ================= -->
+  <br>
+  <br>
+</main>
+<!--================ Start footer Area  =================-->
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<!--================ End footer Area  =================-->
 </body>
 </html>
