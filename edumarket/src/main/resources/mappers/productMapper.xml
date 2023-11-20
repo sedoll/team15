@@ -9,6 +9,49 @@
     <select id="getProductList" resultType="com.chunjae.edumarket.entity.Product">
         select * from product where act='JOIN' order by no desc
     </select>
+    <select id="getTotal">
+        select count(*) from product where act='JOIN'
+        <if test="type != null">
+            <choose>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate = #{category}
+        </if>
+    </select>
+    <!-- 게시글 목록, 페이징 -->
+    <select id="productListWithPage" resultType="com.chunjae.edumarket.entity.Product">
+        select * from product where act='JOIN'
+        <if test="type != null">
+            <choose>
+                <when test="type == 'L'.toString()">
+                    AND addr LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate = #{category}
+        </if>
+        order by no desc limit #{postStart}, #{postCount}
+    </select>
     <!-- 최근 게시글 목록, 리스트 -->
     <select id="productListRecent" resultType="com.chunjae.edumarket.entity.Product">
         select * from product where act='JOIN' order by no desc limit 8

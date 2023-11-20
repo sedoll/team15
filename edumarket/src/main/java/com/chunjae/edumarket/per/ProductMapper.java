@@ -1,6 +1,7 @@
 package com.chunjae.edumarket.per;
 
 import com.chunjae.edumarket.entity.*;
+import com.chunjae.edumarket.utils.Page;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.List;
 @Mapper
 public interface ProductMapper {
     List<Product> getAdmProductList(); // 모든 중고상품 리스트 목록
+    int getTotal(Page page);        // 조건에 맞는 게시글 개수
     List<Product> getProductList(); // 리스트 목록
+    List<Product> productListWithPage(Page page);
     List<Product> productListRecent(); // 최근 리스트 목록 8개
     List<Product> getMyProductList(String id); // 내 상점
     List<Product> productBuyerList(String id); // 내 구매
