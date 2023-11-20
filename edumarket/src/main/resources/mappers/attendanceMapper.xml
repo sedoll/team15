@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chunjae.edumarket.per.AttendanceMapper">
+    <select id="attendanceList" resultType="integer">
+        SELECT day(attend) AS attendDay FROM attendance
+        WHERE id=#{id} AND MONTH(attend) = MONTH(CURRENT_DATE)
+    </select>
+
+    <select id="givawayList" resultType="string">
+        SELECT givaway FROM attendance WHERE givaway != '001.png' ORDER BY attend DESC
+    </select>
+
+    <select id="getAttendance" resultType="com.chunjae.edumarket.entity.Attendance">
+        select * from attendance
+        where id = #{id} and attend = CURRENT_DATE
+    </select>
+
+    <insert id="addAttend" parameterType="com.chunjae.edumarket.entity.Attendance">
+        insert into attendance
+        values(default, #{id}, default, #{givaway})
+    </insert>
+
+    <select id="attendaceDetail" resultType="com.chunjae.edumarket.entity.Attendance">
+        select ano, name AS id, attend from attendance a join member m on(a.id = m.id)
+        where month(attend) = month(current_date)
+    </select>
+
+</mapper>

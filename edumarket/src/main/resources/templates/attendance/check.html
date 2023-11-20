@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 출석체크 </title>
+    <th:block th:replace="layout/head :: headFragment"></th:block>
+    <style>
+        #givaway_wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-top: -175px;
+            margin-left: -200px;
+            width: 400px;
+            height: 350px;
+            z-index: 10;
+        }
+        #givaway {
+            position: relative;
+        }
+        #close_btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: #002347;
+            border: none;
+            background: transparent;
+            font-weight: 900;
+            font-size: large;
+            cursor: pointer;
+        }
+
+        .myGivaway {
+            transition: 0.5s;
+        }
+        .myGivaway:hover {
+            cursor:pointer;
+            transform: scale(1.1);
+            -o-transform: scale(1.1);
+            -moz-transform: scale(1.1);
+            -webkit-transform: scale(1.1);
+
+            transition: transform .35s;
+            -o-transition: transform .35s;
+            -moz-transition: transform .35s;
+            -webkit-transition: transform .35s;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1> 출석체크 </h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page"> 출석체크 </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container mt-5 text-center">
+        <h4 style="color: #007cf0"> 내일도 모레도 또 만나요! </h4>
+        <h2 class="mb-4"> 출석체크 이벤트 </h2>
+
+        <div class="row">
+            <div class="col-9 mt-3">
+                <div class="row" th:each="i : ${#numbers.sequence(0, 5)}">
+                    <th:block th:each="j : ${#numbers.sequence(0, 6)}" th:with="date=${(7 * i + j) - (calendarInfo.startDayOfWeek - 1)}">
+                        <div class="col m-1 p-0" th:if="${date < 1 or date > calendarInfo.endDay}"></div>
+                        <div class="col m-1 p-0 attendCalendar" th:if="${date > 0 and date <= calendarInfo.endDay}" th:id="${date}">
+                            <img th:src="@{/img/attendPresent/attendFalse.png}" style="width: 100%; height: auto;" alt="미출석 이미지">
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+            <div class="col">
+                <img th:src="@{/img/attendPresent/attendCharacter.png}" alt="출첵 캐릭터 이미지" class="w-100">
+            </div>
+        </div>
+
+        <!-- 오늘 이미 출석체크를 했다면 버튼 비활성화 -->
+        <div class="has-text-centered">
+            <button th:if="${attendChk}" type="button" class="btn btn-primary btn-lg mt-4" style="margin-bottom: 120px" disabled> 출석체크 완료 </button>
+            <a th:href="@{/attendance/addAttend}" th:if="${!attendChk}" class="btn btn-primary btn-lg mt-4" style="margin-bottom: 120px"> 출석체크 </a>
+        </div>
+    </div>
+    <div class="container mt-5 text-center">
+        <hr>
+        <h3 class="mt-5"> 받은 경품 목록 </h3>
+        <div class="row mt-4 mb-5 pb-5">
+            <img th:src="@{'/img/attendPresent/givaway' + ${gvw}}" alt="경품이미지" class="w-100  mb-4 col-6 myGivaway" th:each="gvw : ${givawayList}">
+        </div>
+    </div>
+
+    <!-- 출석체크 후 획득한 경품 보여주는 팝업 -->
+    <div id="givaway_wrapper" th:if="${givaway != null}">
+        <div id="givaway">
+            <button id="close_btn"> X </button>
+            <img th:src="@{'/img/attendPresent/' + ${givaway}}" alt="경품이미지">
+        </div>
+    </div>
+</section>
+
+<script th:inline="javascript">
+    let attendList = [[${list}]];
+    let rootPath = location.pathname.split("/")[1];
+
+    for(let idx in attendList) {
+        $("#"+attendList[idx]).children("img").remove();
+        $("#"+attendList[idx]).append('<img src="/' + rootPath + '/img/attendPresent/attendTrue.png" style="width: 100%; height: auto;" alt="출석 이미지">')
+    }
+
+    $("#close_btn").click(() => {
+        $("#givaway_wrapper").css("display", "none");
+    });
+
+</script>
+
+<!--================ Start footer Area  =================-->
+<th:block th:replace="layout/footer :: footerFragment"></th:block>
+<!--================ End footer Area  =================-->
+</body>
+</html>
