@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Aroma Shop - Login</title>
+  <title>Login</title>
 	<th:block th:replace="layout/head :: headFragment"></th:block>
 </head>
 <body>
@@ -17,13 +17,7 @@
 		<div class="container h-100">
 			<div class="blog-banner">
 				<div class="text-center">
-					<h1>Login / Register</h1>
-					<nav aria-label="breadcrumb" class="banner-breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Login/Register</li>
-            </ol>
-          </nav>
+					<h1>로그인</h1>
 				</div>
 			</div>
     </div>
@@ -37,15 +31,16 @@
 				<div class="col-lg-6">
 					<div class="login_box_img">
 						<div class="hover">
-							<h4>New to our website?</h4>
-							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
-							<a class="button button-account" href="join.html">Create an Account</a>
+							<h4>셀파몰이 처음이신가요?</h4>
+							<br>
+							<p>셀파몰에서 선생님들과의 커뮤니티와 <br> 오직, 선생님들을 위한 중고 상품을 만나보세요!</p>
+							<a class="button button-account" th:href="@{/common/join}">회원가입</a>
 						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
 					<div class="login_form_inner">
-						<h3>Log in to enter</h3>
+						<h3>로그인</h3>
 						<form class="row login_form" th:action="@{/auth}" id="contactForm" method="post">
 							<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 							<div class="col-md-12 form-group">
@@ -57,14 +52,9 @@
 									   onblur="this.placeholder = 'Password'" pattern="^([a-zA-Z0-9_~!@#$%^&*]){4,18}*$" minlength="4" maxlength="18" required>
 							</div>
 							<div class="col-md-12 form-group">
-								<div class="creat_account">
-									<input type="checkbox" id="f-option2" name="selector">
-									<label for="f-option2">Keep me logged in</label>
-								</div>
-							</div>
-							<div class="col-md-12 form-group">
-								<button type="submit" value="submit" class="button button-login w-100">Log In</button>
-								<a href="#">Forgot Password?</a>
+								<br>
+								<br>
+								<button type="submit" value="submit" class="button button-login w-100">로그인</button>
 							</div>
 						</form>
 					</div>
