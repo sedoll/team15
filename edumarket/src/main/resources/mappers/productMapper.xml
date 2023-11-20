@@ -48,7 +48,7 @@
             </choose>
         </if>
         <if test="category != null">
-            AND cate = #{category}
+            AND cate LIKE concat('%', #{category}, '%')
         </if>
         order by no desc limit #{postStart}, #{postCount}
     </select>
