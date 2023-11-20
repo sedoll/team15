@@ -42,7 +42,8 @@
                     <ul class="main-categories">
                         <li class="common-filter">
                             <ul>
-                                <form th:action="@{/common/productList}" method="get">
+                                <form th:action="@{/common/productList}" id="categoryForm" method="get">
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="전체" name="category" value="전체"><label for="전체">전체</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="의류" name="category" value="의류"><label for="의류">의류</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="악세서리" name="category" value="악세서리"><label for="악세서리">악세서리</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="전자제품" name="category" value="전자제품"><label for="전자제품">전자제품</label></li>
@@ -55,7 +56,7 @@
                                 <script th:inline="javascript">
                                     $(document).ready(() => {
                                         $("input[type=radio]").change(() => {
-                                            document.forms[0].submit();
+                                            $("#categoryForm").submit();
                                         });
                                         $("#" + [[${page.category}]]).attr("checked", "checked");
                                         console.log()
@@ -106,30 +107,18 @@
                     </div>
                 </section>
                 <!-- End Best Seller -->
-                <nav class="blog-pagination justify-content-center d-flex">
+                <nav class="blog-pagination justify-content-center d-flex" th:if="${page.lastPageNum != 0}">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a href="#" class="page-link" aria-label="Previous">
+                        <li class="page-item" th:if="${page.curPageNum > 5}">
+                            <a th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Previous">
                                 <
                             </a>
                         </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">01</a>
+                        <li class="page-item active" th:each="i : ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                            <a th:if="${page.curPageNum == i}" th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" th:text="${i}"></a>
                         </li>
-                        <li class="page-item active">
-                            <a href="#" class="page-link">02</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">03</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">04</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">09</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link" aria-label="Next">
+                        <li class="page-item" th:if="${page.blockLastNum < page.totalPageCount}">
+                            <a th:href="@{/common/productList(page=${page.blockLastNum + 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Next">
                                 >
                             </a>
                         </li>
