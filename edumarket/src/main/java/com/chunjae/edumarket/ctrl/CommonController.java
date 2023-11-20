@@ -1,10 +1,12 @@
 package com.chunjae.edumarket.ctrl;
 
 import com.chunjae.edumarket.biz.BoardServiceImpl;
+import com.chunjae.edumarket.biz.ProductService;
 import com.chunjae.edumarket.biz.ProductServiceImpl;
 import com.chunjae.edumarket.biz.UserService;
 import com.chunjae.edumarket.entity.*;
 import com.chunjae.edumarket.excep.NoSuchDataException;
+import com.chunjae.edumarket.utils.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -165,8 +168,15 @@ public class CommonController {
     // region board 게시판
     // 상품 목록 보기
     @GetMapping("productList")
-    public String productList(Model model) throws Exception {
-        List<Product> productList = productService.productList();
+    public String productList(HttpServletRequest request, Model model) throws Exception {
+        String category = request.getParameter("category");
+        String type = request.getParameter("type");
+        String keyword = request.getParameter("keyword");
+        int curPage = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        Page page = new Page(curPage, type, keyword, category);
+        page.makePage(productService.getTotal(page));
+
+        List<Product> productList = productService.productListWithPage(page);
         List<FileDTO> fileList = new ArrayList<>();
         for (Product pro:productList) {
             FileDTO dto = productService.thmbn(pro.getNo());
@@ -175,6 +185,7 @@ public class CommonController {
 //        log.info(fileboardList.toString());
         model.addAttribute("productList", productList);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("page", page);
         return "product/productList";
     }
 
