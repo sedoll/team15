@@ -29,7 +29,7 @@ public class EdumarketApplication {
     // index
     @GetMapping("/")
     public String home(Model model) throws Exception {
-        List<Product> productList = productService.productList();
+        List<Product> productList = productService.productListRecent();
         List<FileDTO> fileList = new ArrayList<>();
         for (Product pro:productList) {
             FileDTO dto = productService.thmbn(pro.getNo());
