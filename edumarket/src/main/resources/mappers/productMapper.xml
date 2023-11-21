@@ -3,7 +3,26 @@
 <mapper namespace="com.chunjae.edumarket.per.ProductMapper">
     <!-- 모든 게시글 목록, 리스트 -->
     <select id="getAdmProductList" resultType="com.chunjae.edumarket.entity.Product">
-        select * from product order by no desc
+        select * from product
+        <where>
+            <if test="type != null">
+                <choose>
+                    <when test="type == 'T'.toString()">
+                        AND title LIKE concat('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'C'.toString()">
+                        AND content LIKE concat('%', #{keyword}, '%')
+                    </when>
+                    <when test="type == 'W'.toString()">
+                        AND id LIKE concat('%', #{keyword}, '%')
+                    </when>
+                </choose>
+            </if>
+            <if test="category != null">
+                AND cate = #{category}
+            </if>
+        </where>
+        order by no desc limit #{postStart}, #{postCount}
     </select>
     <!-- 게시글 목록, 리스트 -->
     <select id="getProductList" resultType="com.chunjae.edumarket.entity.Product">
@@ -58,11 +77,97 @@
     </select>
     <!-- 내 게시글 목록, 리스트 -->
     <select id="getMyProductList" resultType="com.chunjae.edumarket.entity.Product">
-        select * from product where id = #{id} order by no desc
+        select * from product where id = #{name}
+        <if test="type != null">
+            <choose>
+                <when test="type == 'L'.toString()">
+                    AND addr LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate LIKE concat('%', #{category}, '%')
+        </if>
+        order by no desc limit #{postStart}, #{postCount}
+    </select>
+    <select id="getMyTotal" resultType="integer">
+        select count(*) from product where id = #{name}
+        <if test="type != null">
+            <choose>
+                <when test="type == 'L'.toString()">
+                    AND addr LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate LIKE concat('%', #{category}, '%')
+        </if>
+        order by no desc limit #{postStart}, #{postCount}
+    </select>
+    <select id="getBuyerTotal" resultType="integer">
+        select count(*) from product where buyer = #{name}
+        <if test="type != null">
+            <choose>
+                <when test="type == 'L'.toString()">
+                    AND addr LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate LIKE concat('%', #{category}, '%')
+        </if>
+        order by no desc limit #{postStart}, #{postCount}
     </select>
     <!-- 내 구매 목록, 리스트 -->
     <select id="productBuyerList" resultType="com.chunjae.edumarket.entity.Product">
-        select * from product where buyer = #{id} order by no desc
+        select * from product where buyer = #{name}
+        <if test="type != null">
+            <choose>
+                <when test="type == 'L'.toString()">
+                    AND addr LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'T'.toString()">
+                    AND title LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'C'.toString()">
+                    AND content LIKE concat('%', #{keyword}, '%')
+                </when>
+                <when test="type == 'W'.toString()">
+                    AND id LIKE concat('%', #{keyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="category != null">
+            AND cate LIKE concat('%', #{category}, '%')
+        </if>
+        order by no desc limit #{postStart}, #{postCount}
     </select>
     <!-- 게시글 목록, 리스트 -->
     <select id="getFileList" resultType="com.chunjae.edumarket.entity.Product">

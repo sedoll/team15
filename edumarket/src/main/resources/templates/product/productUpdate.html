@@ -30,7 +30,6 @@
     <div class="container">
         <form th:action="@{/product/productUpdate}" method="post" onsubmit="return textCheck(this)" class="mt-4 mb-5" enctype="multipart/form-data">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <input type="hidden" name="id" id="id" th:value="${#authentication.principal}" minlength="4" maxlength="16" pattern="^[a-z0-9]*$">
             <div class="row mt-4">
                 <div class="col-3">
                     <label for="cate" class="form-label"> 카테고리 </label>
@@ -47,35 +46,29 @@
                 </div>
                 <div class="col">
                     <label for="title" class="form-label"> 제목 </label>
+                    <input type="hidden" name="pno" th:value="${board.no}">
                     <input type="text" class="form-control" name="title" id="title" placeholder="제목을 입력해주세요" minlength="1"
                            maxlength="30" pattern="[a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ_!?@,.^~\s]*$" title="영문, 숫자, 밑줄, 공백, 한글만 입력할 수 있습니다." required th:value="${board.title}"/>
                 </div>
             </div>
 
-            <label for="sido" class="d-block mt-4"> 거래장소 </label>
-            <div class="d-flex justify-content-between">
-                <select name="sido" id="sido" class="form-control"></select>
-                <select name="gugun" id="gugun" class="form-control"></select>
-                <input type="hidden" value="" id="addr" name="addr" readonly>
-            </div>
-
             <label for="price" class="mt-4"> 가격 </label>
-            <input type="text" class="form-control" name="price" id="price" placeholder="1000"
+            <input type="text" class="form-control" name="price" id="price" placeholder="가격을 입력해주세요"
                    pattern="\d*" maxlength="7"
                    oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 7);" required th:value="${board.price}"/>
-            <div>0원(무료) ~ 최대 999만 원</div>
+            <div class="text-danger">0원(무료) ~ 최대 999만 원</div>
 
             <label for="content" class="form-label mt-4"> 내용 </label>
             <textarea name="content" class="form-control" id="content" cols="30" rows="10" maxlength="1000" required>[[${board.content}]]</textarea>
             <input type="hidden" id="ck" value="no">
             <div id="msg"></div>
 
-            <div class="form-group">
-                <span>기존파일</span>
+            <div class="form-group mt-4">
+                <label>기존파일</label><br>
                 <th:block th:each="file, status : ${fileList}">
-                    <div>
-                        <span th:id="'file'+${status.count}" th:text="${file.getOriginfile()}"></span>
-                    </div>
+                    <span style="margin-right: 10px">
+                        <i class="fa-solid fa-file"></i> <span th:id="'file'+${status.count}" th:text="${file.getOriginfile()}"></span>
+                    </span>
                 </th:block>
                 <th:block th:if="${fileList == null}">
                     첨부된 파일이 없습니다.
@@ -105,6 +98,8 @@
 
 
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
+<script th:src="@{/js/addr.js}"></script>
+<script th:src="@{/js/file.js}"></script>
 <script th:inline="javascript">
     $(document).ready(function() {
         $("#contBtn").click(function () {
@@ -137,7 +132,5 @@
     //     $("#content").cleditor();
     // });
 </script>
-<script th:src="@{/js/addr.js}"></script>
-<script th:src="@{/js/file.js}"></script>
 </body>
 </html>

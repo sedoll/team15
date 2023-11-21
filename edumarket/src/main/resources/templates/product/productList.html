@@ -125,12 +125,13 @@
 
 <script th:inline="javascript">
     $(document).ready(() => {
+        let curCate = [[${page.category}]];
         $("input[type=radio]").change(() => {
             $("#categoryForm").submit();
         });
 
         $("#" + [[${page.category}]]).attr("checked", "checked");
-        if([[${page.category}]] == '') {
+        if(curCate == '' || curCate == null) {
             $("#전체").attr("checked", "checked");
         }
     });

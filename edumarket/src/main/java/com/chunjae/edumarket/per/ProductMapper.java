@@ -8,13 +8,15 @@ import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-    List<Product> getAdmProductList(); // 모든 중고상품 리스트 목록
+    List<Product> getAdmProductList(Page page); // 모든 중고상품 리스트 목록
     int getTotal(Page page);        // 조건에 맞는 게시글 개수
     List<Product> getProductList(); // 리스트 목록
     List<Product> productListWithPage(Page page);
     List<Product> productListRecent(); // 최근 리스트 목록 8개
-    List<Product> getMyProductList(String id); // 내 상점
-    List<Product> productBuyerList(String id); // 내 구매
+    List<Product> getMyProductList(Page page); // 내 상점
+    int getMyTotal(Page page);
+    int getBuyerTotal(Page page);
+    List<Product> productBuyerList(Page page); // 내 구매
     Integer fileBoardInsert(Product fileboard) throws Exception; // 판매글 내용 db 저장
     Integer fileInsert(FileDTO file) throws Exception; // 판매글의 파일 db 저장
     int productUpdate(Product product) throws Exception; // 글 수정

@@ -15,10 +15,10 @@
     <div class="container h-100">
         <div class="blog-banner">
             <div class="text-center">
-                <h1>마이페이지</h1>
+                <h1>구매내역</h1>
                 <nav aria-label="breadcrumb" class="banner-breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">구매내역</li>
+                        <li class="breadcrumb-item active" aria-current="page">구매내역을 한눈에 확인하세요</li>
                     </ol>
                 </nav>
             </div>
@@ -27,74 +27,107 @@
 </section>
 <!-- ================ end banner area ================= -->
 
-<div style="min-height: 100vh">
-    <div class="container con-tb">
-        <div class="search_from">
-            <select name="select_filter" class="select_filter">
-                <option value="1">지역</option>
-                <option value="2">분류</option>
-                <option value="3">제목</option>
-                <option value="4">가격</option>
-                <option value="5">작성일</option>
-                <option value="6">조회수</option>
-            </select>
-            <input type="text" name="search_filter" class="search_filter">
+<section class="section-margin--small pb-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4 col-md-5">
+                <div class="sidebar-categories">
+                    <div class="head">카테고리</div>
+                    <ul class="main-categories">
+                        <li class="common-filter">
+                            <ul>
+                                <form th:action="@{/common/productList}" id="categoryForm" method="get">
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="전체" name="category" value=""><label for="전체">전체</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="의류" name="category" value="의류"><label for="의류">의류</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="악세서리" name="category" value="악세서리"><label for="악세서리">악세서리</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="전자제품" name="category" value="전자제품"><label for="전자제품">전자제품</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="스포츠" name="category" value="스포츠"><label for="스포츠">스포츠</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="굿즈" name="category" value="굿즈"><label for="굿즈">굿즈</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="도서" name="category" value="도서"><label for="도서">도서</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="티켓" name="category" value="티켓"><label for="티켓">티켓</label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="뷰티" name="category" value="뷰티"><label for="뷰티">뷰티</label></li>
+                                </form>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8 col-md-7">
+                <!-- Start Filter Bar -->
+                <div class="filter-bar d-flex justify-content-end flex-wrap align-items-center">
+                    <form th:action="@{/product/productList}" method="get" class="d-flex justify-content-end align-items-end">
+                        <input type="hidden" name="category" th:value="${page.category}">
+                        <select name="type" id="type" class="select_filter border-0 rounded-0" style="height: 38px;">
+                            <option value="L">지역</option>
+                            <option value="T">제목</option>
+                            <option value="C">내용</option>
+                            <option value="W">판매자</option>
+                        </select>
+                        <div class="input-group filter-bar-search">
+                            <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" th:value="${page.keyword}" autocomplete="off">
+                            <div class="input-group-append">
+                                <button type="submit"><i class="ti-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- End Filter Bar -->
+                <!-- Start Best Seller -->
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-4" th:each="product, status : ${productList}">
+                            <div class="card text-center card-product">
+                                <div class="card-product__img">
+                                    <img class="card-img pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}" alt="상품이미지">
+                                </div>
+                                <div class="card-body">
+                                    <p>[ [[${product.cate}]] ]</p>
+                                    <p>[[${product.addr}]]</p>
+                                    <h4 class="card-product__title"><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></h4>
+                                    <p class="card-product__price" th:text="${product.price eq 0 ? '무료나눔' : product.price + '원'}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="w-100 text-center" th:if="${#lists.size(productList) == 0}"> 구매한 내역이 없습니다. </span>
+                    </div>
+                </section>
+                <!-- End Best Seller -->
+                <nav class="blog-pagination justify-content-center d-flex" th:if="${page.lastPageNum != 0}">
+                    <ul class="pagination">
+                        <li class="page-item" th:if="${page.curPageNum > 5}">
+                            <a th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Previous">
+                                <
+                            </a>
+                        </li>
+                        <li th:class="${page.curPageNum == i ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                            <a th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" th:text="${i}" class="page-link"></a>
+                        </li>
+                        <li class="page-item" th:if="${page.blockLastNum < page.totalPageCount}">
+                            <a th:href="@{/common/productList(page=${page.blockLastNum + 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Next">
+                                >
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
-        <table class="table" id="myTable">
-            <thead class="thead-light">
-            <tr>
-                <th>이미지</th>
-                <th>분류</th>
-                <th>제목</th>
-                <th>가격</th>
-                <th>작성일</th>
-                <th>조회수</th>
-                <th>상태</th>
-                <th>비고</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="product, status : ${productList}">
-                <td style="width: 250px;">
-                    <img class="pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
-                         alt="">
-                </td>
-                <td>
-                    <p>[[${product.cate}]]</p>
-                </td>
-                <td>
-                    <p><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></p>
-                </td>
-                <td>
-                    <p th:text="${product.price eq 0 ? '무료나눔' : product.price}"></p>
-                </td>
-                <td>
-                    <p th:text="${#strings.substring(product.resdate, 0, 10)}"></p>
-                </td>
-                <td>
-                    <p>[[${product.cnt}]]</p>
-                </td>
-                <td>
-                    <th:block th:if="${product.act eq 'JOIN'}">
-                        <p style="color: blue">판매중</p>
-                    </th:block>
-                    <th:block th:if="${product.act eq 'DSBLD'}">
-                        <p style="color: red">판매완료</p>
-                    </th:block>
-                </td>
-                <td>
-                    <th:block
-                            th:if="${product.act eq 'JOIN' and (#authentication.principal eq product.id or #authorization.expression('hasAuthority(''ADMIN'')'))}">
-                        <a th:href="@{/product/productUpdate(no=${product.no})}" class="btn btn-primary">수정</a>
-                        <a th:href="@{/product/productDelete(no=${product.no})}" class="btn btn-danger">삭제</a>
-                    </th:block>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
-</div>
+</section>
+
+<script th:inline="javascript">
+    $(document).ready(() => {
+        let curCate = [[${page.category}]];
+        $("input[type=radio]").change(() => {
+            $("#categoryForm").submit();
+        });
+
+        $("#" + [[${page.category}]]).attr("checked", "checked");
+        if(curCate == '' || curCate == null) {
+            $("#전체").attr("checked", "checked");
+        }
+    });
+</script>
+
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
-<script th:src="@{/js/product-datatables.js}"></script>
 </body>
 </html>

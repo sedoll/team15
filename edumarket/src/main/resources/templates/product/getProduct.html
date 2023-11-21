@@ -63,10 +63,8 @@
                         <li>
                             <div class="d-flex justify-content-end mt-5"
 									th:if="${product.act eq 'JOIN' and (#authentication.principal eq product.id or #authorization.expression('hasAuthority(''ADMIN'')'))}">
-								<div class="btn-group">
-									<a th:href="@{/product/productUpdate(no=${product.no})}" class="btn btn-outline-dark">수정</a>
-									<a th:href="@{/product/productDelete(no=${product.no})}" class="btn btn-danger">삭제</a>
-								</div>
+                                <a th:href="@{/product/productUpdate(no=${product.no})}" class="btn btn-outline-dark" style="margin-right: 10px">수정</a>
+                                <a th:href="@{/product/productDelete(no=${product.no})}" class="btn btn-danger">삭제</a>
                             </div>
                         </li>
                     </ul>

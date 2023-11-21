@@ -59,8 +59,8 @@
                 <input type="hidden" value="" id="addr" name="addr" readonly>
             </div>
 
-            <label for="price" class="mt-4"> 가격 </label>
-            <input type="text" class="form-control" name="price" id="price" placeholder="1000"
+            <label for="price" class="d-block mt-4"> 가격 </label>
+            <input type="text" class="form-control" name="price" id="price" placeholder="가격을 입력해주세요"
                    pattern="\d*" maxlength="7"
                    oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 7);" required/>
             <div>0원(무료) ~ 최대 999만 원</div>
@@ -74,9 +74,9 @@
                 <div class="form-group">
                     <label for="files" id="file-js-example1" class="d-block">
                         <input type="file" class="form-control border-0 mb-2" name="files" id="files" onchange="addFile(this);"
-                               accept="image/png, image/jpeg" multiple required> <!-- -->
-                        <div class="file-list"></div>
+                               accept="image/png, image/jpeg" multiple required>
                     </label>
+                    <div class="file-list"></div>
                 </div>
             </div>
 

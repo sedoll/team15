@@ -17,6 +17,8 @@ public class ChatRoom {
     private String seller;
     private int pno;
     private String act;
+    private String lastChat;
+    private String lastDate;
     private Set<WebSocketSession> sessions = new HashSet<>();
     @Builder
     public ChatRoom(String roomId, String name, String buyer, String seller, int pno, String act) {
