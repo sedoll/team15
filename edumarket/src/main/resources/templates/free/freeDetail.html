@@ -23,14 +23,52 @@
     }
 
     .btns .button {
-        width: 6rem;
+        min-width: 7rem;
+    }
+
+    .item1 {
+        width: 10%;
+    }
+
+    .item2 {
+        width: 30%;
+    }
+
+    .item3 {
+        width: 20%;
+    }
+
+    .item1, .item2, .item3 {
+        text-align: center;
     }
 </style>
 
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>자유게시판 상세보기</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            댓글을 남기면서 전국 선생님들과 소통해보세요!
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
 <div class="container">
     <div class="columns is-multiline mt-1">
+        <br>
+        <br>
         <div class="column is-12 mb-5 border-top">
             <div class="single-blog-item">
                 <div class="blog-item-content ml-6 mt-3">
@@ -48,16 +86,42 @@
                         </span>
                     </div>
                     <hr>
+                    <br>
+                    <br>
                     <p th:utext="${free.content}"></p>
+                    <br>
+                    <br>
                 </div>
             </div>
+            <hr>
+            <p>여러분의 의견을 듣고 싶어요. 나눠주세요!</p>
+            <hr>
+            <form th:action="@{/free/commentInsert}" id="login_frm" class="frm" method="post" onsubmit="return comment(this)">
+                <table class="tb3">
+                    <tbody>
+                    <tr>
+                        <th:block sec:authorize="isAuthenticated()" class="form-group">
+                            <th class="has-text-centered" th:text="${#authentication.principal}"></th>
+                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글" maxlength="250" required ></textarea></th>
+                            <th>
+                                <input type="hidden" name="id" th:value="${#authentication.principal}">
+                                <input type="hidden" name="par" th:value="${free.no}">
+                                <input type="submit" value="작성" class="button">
+                                <input type="hidden" id="ck" value="no">
+                            </th>
+                        </th:block>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
             <table class="table" id="comment">
                 <thead>
                 <tr>
                     <th class="item1">작성자</th>
                     <th class="item2">댓글</th>
                     <th class="item3">작성일</th>
-                    <th class="item4">비고</th>
+                    <th class="item4"></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -67,40 +131,26 @@
                     <td class="item3" th:text="${lev.resdate}"></td>
                     <td class="item4">
                         <th:block th:if="${#authentication.principal eq lev.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
-                            <a th:href="@{/free/commentUpdate(no=${lev.no})}" class="button is-link is-small is-outlined is-rounded ">수정</a>
-                            <a th:href="@{/free/commentDelete(no=${lev.no})}" class="button is-danger is-small is-outlined is-rounded">삭제</a>
+                            <a th:href="@{/free/commentUpdate(no=${lev.no})}" class="btn btn-primary " style="float: right">수정</a>
+                            <a th:href="@{/free/commentDelete(no=${lev.no})}" class="btn btn-primary" style="float: right; margin-right: 15px">삭제</a>
                         </th:block>
                     </td>
                 </tr>
                 </tbody>
             </table>
-            <form th:action="@{/free/commentInsert}" id="login_frm" class="frm" method="post" onsubmit="return comment(this)">
-                <table class="tb3">
-                    <tbody>
-                    <tr>
-                        <th:block sec:authorize="isAuthenticated()" class="form-group">
-                            <th class="has-text-centered" th:text="${#authentication.principal}"></th>
-                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글 작성" maxlength="250" required ></textarea></th>
-                            <th>
-                                <input type="hidden" name="id" th:value="${#authentication.principal}">
-                                <input type="hidden" name="par" th:value="${free.no}">
-                                <input type="submit" value="작성" class="button">
-                                <input type="hidden" id="ck" value="no">
-                            </th>
-                        </th:block>
-                    </tr>
-                    </tbody>
-                </table>
-            </form>
         </div>
     </div>
     <div class="btns has-text-centered">
         <!-- 아이디가 일치하거나 관리자인 경우 -->
         <th:block th:if="${#authentication.principal eq free.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
-            <a class="button mx-1" style="background-color: #2B3A55; color: #fff;" th:href="@{/free/freeEdit(no=${free.no})}">수정</a>
-            <a class="button is-danger mx-1" th:href="@{/free/freeDelete(no=${free.no})}">삭제</a>
-            <a class="button is-info mx-1" th:href="@{/free/freeList}">목록</a>
+            <a class="btn btn-primary" style="background-color: #2B3A55; color: #fff; float: right" th:href="@{/free/freeEdit(no=${free.no})}">수정</a>
+            <a class="btn btn-primary" th:href="@{/free/freeDelete(no=${free.no})}" style="float: right; margin-right: 15px">삭제</a>
+            <a class="btn btn-primary" th:href="@{/free/freeList}">목록</a>
         </th:block>
+        <br>
+        <br>
+        <br>
+        <br>
     </div>
 </div>
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
