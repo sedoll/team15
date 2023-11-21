@@ -8,7 +8,8 @@ $(document).ready( function () {
     info: false,
     lengthChange: false, // show entries 제거
     language: {
-    emptyTable: '등록된 게시글(이)가 없습니다.'
+    emptyTable: '등록된 게시글(이)가 없습니다.',
+    paginate: { "next": ">", "previous": "<" } // 글자를 기호로 사용
     }
 });
 

@@ -29,8 +29,31 @@
 
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>공지사항 상세보기</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            셀파몰의 중요소식을 공지사항을 통해 만나보세요!
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+
 <div class="container">
     <div class="columns is-multiline mt-1">
+        <br>
+        <br>
         <div class="column is-12 mb-5 border-top">
             <div class="single-blog-item">
                 <div class="blog-item-content ml-6 mt-3">
@@ -48,16 +71,24 @@
                         </span>
                     </div>
                     <hr>
+                    <br>
+                    <br>
                     <p th:utext="${notice.content}"></p>
+                    <br>
+                    <br>
                 </div>
             </div>
             <div class="btns has-text-centered">
                 <!-- 아이디가 일치하거나 관리자인 경우 -->
                 <th:block sec:authorize="isAuthenticated() and (hasAuthority('ADMIN'))">
-                    <a class="button mx-1" style="background-color: #2B3A55; color: #fff;" th:href="@{/notice/noticeEdit(no=${notice.no})}">수정</a>
-                    <a class="button is-danger mx-1" th:href="@{/notice/noticeDelete(no=${notice.no})}">삭제</a>
-                    <a class="button is-info mx-1" th:href="@{/notice/noticeList}">목록</a>
+                    <a class="btn btn-primary" style="background-color: #2B3A55; color: #fff; float: right" th:href="@{/notice/noticeEdit(no=${notice.no})}">수정</a>
+                    <a class="btn btn-danger" th:href="@{/notice/noticeDelete(no=${notice.no})}" style="float: right; margin-right: 15px">삭제</a>
+                    <a class="btn btn-primary" th:href="@{/notice/noticeList}">목록</a>
                 </th:block>
+                <br>
+                <br>
+                <br>
+                <br>
             </div>
         </div>
     </div>

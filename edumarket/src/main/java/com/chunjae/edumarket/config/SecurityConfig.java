@@ -45,6 +45,7 @@ public class SecurityConfig {
                 .antMatchers("/emp/**").hasAnyAuthority("ADMIN", "EMP")
                 .mvcMatchers("/css/**", "/js/**", "/img/**", "/cleditor/**", "/scss/**", "/vendors/**", "/ckeditor/**", "/webfonts/**").permitAll()
                 .anyRequest().authenticated(); // 앞에서 선언한 모든 것들을 인증
+                // "/webfonts/**" 웹 폰트를 추가하는 경우 이거 넣어주자, 안하면 error page 뜸
 
         // login 설정
         http
