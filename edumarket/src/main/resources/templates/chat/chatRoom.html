@@ -173,6 +173,12 @@
             alert("메세지는 특수문자(<, >)를 제외한 글자 만 입력이 가능합니다")
             $("#content").focus();
             return false;
+        } else {
+            if(bad_words_ck(content) > 0) {
+                alert('비속어가 감지되었습니다.')
+                $("#content").focus();
+                return false;
+            }
         }
 
         let talkMsg = {
@@ -201,6 +207,12 @@
 
     // 채팅방 나가는 경우
     function quit() {
+        let ck = confirm('채팅방을 나가시겠습니까?');
+
+        if(!ck) {
+            return false;
+        }
+
         var quitMsg = {
             "type": "QUIT",
             "roomId": roomId,
