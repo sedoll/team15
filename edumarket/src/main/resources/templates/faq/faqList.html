@@ -77,18 +77,44 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bulma-accordion@2.0.1/dist/js/bulma-accordion.min.js"></script>
 <body>
 <div th:replace="layout/header :: header"></div>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>자주 묻는 질문</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            궁금해 하시는 질문들을 모아 셀파몰이 정리해두었어요!
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<div class="container">
 <div class="wrapper" th:each="faq, status : ${faqList}" th:status="status">
     <div class="faq active">
+        <br>
+        <br>
         <button class="accordion">
             <span th:utext="${status.count} + '. &nbsp;&nbsp;' + ${faq.question}"></span>
-            <i class="fa-solid fa-chevron-circle-down"></i>
+            <i>▼</i>
         </button>
         <div class="pannel">
+            <br>
+            <br>
             <p th:utext="${faq.answer}"></p>
         </div>
     </div>
     <br/>
     <br/>
+</div>
 </div>
 <br/>
 <br/>
