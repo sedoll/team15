@@ -15,6 +15,7 @@ function addFile(obj){
         document.querySelector("input[type=file]").value = "";
         $('.file-list').empty();
     } else {
+        $('.file-list').children().remove();
         for (const file of obj.files) {
             // 첨부파일 검증
             if (validation(file)) {
@@ -28,8 +29,7 @@ function addFile(obj){
                 // 목록 추가
                 let htmlData = '';
                 htmlData += '<div id="file' + fileNo + '" class="filebox">';
-                htmlData += '   <p class="name">' + file.name + '</p>';
-                htmlData += '   <a class="delete" onclick="deleteFile(' + fileNo + ');"><i class="far fa-minus-square"></i></a>';
+                htmlData += '   <p class="name mb-0">' + file.name + '</p>';
                 htmlData += '</div>';
                 $('.file-list').append(htmlData);
                 fileNo++;
@@ -39,6 +39,17 @@ function addFile(obj){
         }
     }
 }
+
+// function deleteFile(fileNo) {
+//     $('.file-list').children("#file"+fileNo).remove();
+//
+//     const dataTransfer = new DataTransfer();
+//     Array.from(filesArr)
+//         .filter((file, index) => index !== fileNo)
+//         .forEach(file => {
+//             dataTransfer.items.add(file);
+//         });
+// }
 
 /* 첨부파일 검증 */
 function validation(obj){

@@ -9,6 +9,7 @@ import java.util.List;
 @Mapper
 public interface ChatMapper {
     List<ChatRoom> findAllRoom(); // 채팅방 목록
+    List<ChatRoom> findAllRoomWithName(String name);            // 채팅방 목록
     int createRoom(ChatRoom chatRoom); // 채팅방 생성
     int insertChat(ChatMessage chatMessage); // 채팅 내역 저장
     List<ChatMessage> findChatById(String roomId); // 채팅방의 채팅 내역 갖고오기

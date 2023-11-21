@@ -8,6 +8,7 @@ import com.chunjae.edumarket.entity.Euser;
 import com.chunjae.edumarket.entity.FileDTO;
 import com.chunjae.edumarket.entity.Product;
 import com.chunjae.edumarket.excep.NoSuchDataException;
+import com.chunjae.edumarket.utils.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +94,15 @@ public class AdminController {
 
     // 모든 상품 목록 보기
     @GetMapping("productList")
-    public String productList(Model model) throws Exception {
-        List<Product> productList = productService.getAdmProductList();
+    public String productList(HttpServletRequest request, Model model) throws Exception {
+        String category = request.getParameter("category");
+        String type = request.getParameter("type");
+        String keyword = request.getParameter("keyword");
+        int curPage = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        Page page = new Page(curPage, type, keyword, category);
+        page.makePage(productService.getBuyerTotal(page));
+
+        List<Product> productList = productService.getAdmProductList(page);
         List<FileDTO> fileList = new ArrayList<>();
         for (Product pro:productList) {
             FileDTO dto = productService.thmbn(pro.getNo());
@@ -101,6 +110,7 @@ public class AdminController {
         }
         model.addAttribute("productList", productList);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("page", page);
         return "admin/admProductList";
     }
 }
