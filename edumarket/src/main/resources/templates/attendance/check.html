@@ -103,7 +103,36 @@
             <p class="text-center"> 지금까지 당첨된 경품이 없습니다 :) </p>
         </div>
     </div>
-
+    <div class="container mt-5 text-center">
+        <hr>
+        <h3 class="mt-5 pb-5 mb-5"> 어떤 경품을 받을 수 있나요? </h3>
+        <div class="row mt-4 mb-5 pb-5">
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/007.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>50,000원권 (1%) </h6>
+            </div>
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/006.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>30,000원권 (2%) </h6>
+            </div>
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/005.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>20,000원권 (3%) </h6>
+            </div>
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/004.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>15,000원권 (4%) </h6>
+            </div>
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/003.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>10,000원권 (5%) </h6>
+            </div>
+            <div class="col">
+                <img th:src="@{'/img/attendPresent/002.png'}" alt="경품이미지" class="w-100 mb-3 myGivaway">
+                <h6> 백화점 상품권 <br>5,000원권 (10%) </h6>
+            </div>
+        </div>
+    </div>
     <!-- 출석체크 후 획득한 경품 보여주는 팝업 -->
     <div id="givaway_wrapper" th:if="${givaway != null}">
         <div id="givaway">

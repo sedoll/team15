@@ -48,6 +48,7 @@
 
     .button2 {
         width: 85px;
+        height: 135px;
         text-decoration: none;
         border-radius: 20px;
         margin: 15px;
@@ -117,7 +118,8 @@
                         <p>여러분의 의견을 듣고 싶어요. 나눠주세요!</p>
                         <th:block sec:authorize="isAuthenticated()" class="form-group">
                             <th class="has-text-centered" th:text="${#authentication.principal}" style="font-size: 20px;color: black;width: 10%;text-align: center;"></th>
-                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글" maxlength="250" required style="border-radius: 20px; margin-left: 6px" ></textarea></th>
+                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글" maxlength="250" required
+                                          style="border-radius: 20px; margin-left: 6px; resize: none"></textarea></th>
                             <th>
                                 <input type="hidden" name="id" th:value="${#authentication.principal}">
                                 <input type="hidden" name="par" th:value="${free.no}">
@@ -141,9 +143,9 @@
                 </thead>
                 <tbody>
                 <tr th:each="lev : ${comment}">
-                    <td class="item1" th:text="${lev.id}"></td>
-                    <td class="item2" th:text="${lev.content}"></td>
-                    <td class="item3" th:text="${lev.resdate}"></td>
+                    <td class="item1 align-middle" th:text="${lev.id}"></td>
+                    <td class="item2 align-middle" th:text="${lev.content}"></td>
+                    <td class="item3 align-middle" th:text="${lev.resdate}"></td>
                     <td class="item4">
                         <th:block th:if="${#authentication.principal eq lev.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
                             <a th:href="@{/free/commentUpdate(no=${lev.no})}" class="btn btn-primary " style="float: right">수정</a>

@@ -71,9 +71,9 @@ public class UserController {
         // 내가 구매한 상품 목록
         List<Product> paymentList = productService.productBuyerList(page);
         List<FileDTO> payFileList = new ArrayList<>();
-        for (Product pro:productList) {
+        for (Product pro:paymentList) {
             FileDTO dto = productService.thmbn(pro.getNo());
-            fileList.add(dto);
+            payFileList.add(dto);
         }
         model.addAttribute("paymentList", paymentList);
         model.addAttribute("payFileList", payFileList);
@@ -124,7 +124,7 @@ public class UserController {
             throw new NoSuchDataException("No Update Process Data");
         }
         model.addAttribute("msg","회원정보를 수정하였습니다.");
-        return "redirect:/";
+        return "redirect:mypage";
     }
 
 }

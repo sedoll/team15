@@ -6,6 +6,7 @@ import com.chunjae.edumarket.entity.Free;
 import com.chunjae.edumarket.entity.FreeComment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,9 @@ import java.util.UUID;
 @Controller
 @RequestMapping("/free/*")
 public class FreeController {
+
+    @Value("${spring.servlet.multipart.location}")
+    String uploadFolder;
 
     @Autowired
     private FreeServiceImpl freeService;
@@ -105,7 +109,7 @@ public class FreeController {
     }
 
     //ckeditor를 이용한 이미지 업로드
-    @RequestMapping(value = "imageUpload.do", method = RequestMethod.POST)
+    @PostMapping(value = "imageUpload.do")
     public void imageUpload(HttpServletRequest request,
                             HttpServletResponse response, MultipartHttpServletRequest multiFile
             , @RequestParam MultipartFile upload) throws Exception {
@@ -124,10 +128,9 @@ public class FreeController {
             byte[] bytes = upload.getBytes();
 
             //이미지 경로 생성
-            String path = "E:\\edumarket_5차\\src\\main\\webapp\\resources\\upload" + "ckImage/";    // 이미지 경로 설정(폴더 자동 생성)
-            String ckUploadPath = path + uid + "_" + fileName;
-            File folder = new File(path);
-            System.out.println("path:" + path);    // 이미지 저장경로 console에 확인
+            String ckUploadPath = uploadFolder + "\\free\\" + uid + "_" + fileName;
+            File folder = new File(uploadFolder);
+            System.out.println("path:" + uploadFolder);    // 이미지 저장경로 console에 확인
             //해당 디렉토리 확인
             if (!folder.exists()) {
                 try {
@@ -143,7 +146,7 @@ public class FreeController {
 
             String callback = request.getParameter("CKEditorFuncNum");
             printWriter = response.getWriter();
-            String fileUrl = "/notice/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName; // 작성화면
+            String fileUrl = "/free/ckImgSubmit.do?uid=" + uid + "&fileName=" + fileName; // 작성화면
 
             // 업로드시 메시지 출력
             printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
@@ -174,8 +177,7 @@ public class FreeController {
             throws ServletException, IOException {
 
         //서버에 저장된 이미지 경로
-        String path = "E:\\edumarket_5차\\src\\main\\webapp\\resources\\upload" + "ckImage/";    // 저장된 이미지 경로
-        System.out.println("path:" + path);
+        String path = uploadFolder + "\\free\\";
         String sDirPath = path + uid + "_" + fileName;
 
         File imgFile = new File(sDirPath);

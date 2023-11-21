@@ -1,6 +1,6 @@
 // 환경에 따라 값을 조금 바꿔야 한다.
 let chatInsertUrl = "/team15/chat/insertChat";
-let chatListUrl = "/team15/chat/chatList";
+let chatListUrl = "/team15/user/mypage";
 let chatUrl = "ws://localhost:8085/team15/ws/chat";
 
 let socket = new WebSocket(chatUrl);
