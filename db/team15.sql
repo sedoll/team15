@@ -1,7 +1,7 @@
-DROP DATABASE edumon;
-create DATABASE edumon;
+DROP DATABASE team15;
+create DATABASE team15;
 
-USE edumon;
+USE team15;
 
 CREATE TABLE euser(
 	id int PRIMARY KEY AUTO_INCREMENT COMMENT '회원번호',
