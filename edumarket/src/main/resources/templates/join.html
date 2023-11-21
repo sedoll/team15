@@ -320,7 +320,8 @@
 <!--================ Start footer Area  =================-->
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
 <!--================ End footer Area  =================-->
-<script th:src="@{/js/join.js}"></script>
+<script th:src="@{/js/join.js}" th:inline="javascript"></script>
+<script th:src="@{/js/kakao-addr.js}" th:inline="javascript"></script>
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 </html>
