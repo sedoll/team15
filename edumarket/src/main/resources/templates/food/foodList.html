@@ -18,8 +18,7 @@
         <h1>식단표</h1>
         <nav aria-label="breadcrumb" class="banner-breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">이번주 식단표</li>
-            <li class="breadcrumb-item active" aria-current="page">[[${schoolName}]]</li>
+            <li class="breadcrumb-item active" aria-current="page">우리 학교의 이번주 식단표를 셀파몰에서 확인해보세요!</li>
           </ol>
         </nav>
       </div>
@@ -27,7 +26,8 @@
   </div>
 </section>
 <!-- ================ end banner area ================= -->
-
+<br>
+<br>
 <div style="min-height: 100vh">
   <div class="container con-tb">
     <form th:action="@{/food/foodList}" class="form" method="post" onsubmit="">

@@ -39,6 +39,24 @@
 </head>
 <body>
 <div th:replace="layout/header :: header"></div>
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>자유게시판</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            셀파몰의 자유게시판에서 선생님들과의 커뮤니티를 즐겨요!
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
 <div class="container">
     <p class="title has-text-centered mt-1 mb-2"></p>
     <div class="search_from">
@@ -78,6 +96,8 @@
             <th:block sec:authorize="isAuthenticated()">
                 <a th:href="@{/free/freeInsert(id=${#authentication.principal})}" class="button is-link is-medium" style="float: right">글쓰기</a>
             </th:block>
+            <br>
+            <br>
             <br>
             <br>
         </div>
