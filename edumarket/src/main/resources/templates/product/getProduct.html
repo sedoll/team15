@@ -28,7 +28,7 @@
                 <h1>중고상품</h1>
                 <nav aria-label="breadcrumb" class="banner-breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item active" aria-current="page">상세보기</li>
+                        <li class="breadcrumb-item active" aria-current="page">원하는 물건을 찾거나 파는 즐거움을 느껴보세요!</li>
                     </ol>
                 </nav>
             </div>
@@ -47,7 +47,7 @@
                     <div class="swiper-slide" th:each="file, status : ${fileList}">
                         <img class="title-img"
                              th:src="${'/team15/common/image?savefile='+file.getSavefile()+'&originfile='+file.getOriginfile()}"
-                             th:alt="이미지+${status.count}">
+                             th:alt="이미지+${status.count}" th:style="${#strings.equals(product.act, 'DSBLD') ? 'filter: brightness(0.5)' : ''}">
                     </div>
                 </div>
             </div>
@@ -56,7 +56,10 @@
 					<span class="badge badge-warning" style="font-size: 11pt">[[${product.cate}]]</span>
                     <h3 class="mt-2">[[${product.title}]]</h3>
                     <h5>[[${product.price}]]원</h5>
-					<th:block sec:authorize="isAnonymous()">
+                    <th:block th:if="${#strings.equals(product.act, 'DSBLD')}">
+                        <p class="text-danger"> 판매완료된 상품입니다 :)</p>
+                    </th:block>
+                    <th:block sec:authorize="isAnonymous()">
 						<p class="text-danger"> 로그인 후 판매자와 채팅해보세요 :) </p>
 					</th:block>
                     <ul>
@@ -69,7 +72,7 @@
                         </li>
                     </ul>
                     <th:block sec:authorize="isAuthenticated()">
-                        <th:block th:if="${#authentication.principal ne product.id}">
+                        <th:block th:if="${(#authentication.principal ne product.id) && (#strings.equals(product.act, 'JOIN'))}">
                             <ul class="mt-5 d-flex justify-content-end">
                                 <li>
                                     <form th:action="@{/chat/createRoom}" method="post">

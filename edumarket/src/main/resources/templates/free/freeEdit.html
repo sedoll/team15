@@ -72,17 +72,15 @@
                         <th class="has-text-centered">제목</th>
                         <td>
                             <input type="hidden" name="no" id="no" th:value="${free.no}">
-                            <input type="text" name="title" id="title" class="input" placeholder="제목 입력"
+                            <input type="text" name="title" id="title" class="form-control" placeholder="제목 입력"
                                    th:value="${free.title}"
-                                   maxlength="98" required
-                                   style="width: 1020px;
-                                   height: 60px;">
+                                   maxlength="98" required>
                         </td>
                     </tr>
                     <tr class="border-top">
                         <th class="has-text-centered">작성자</th>
                         <td>
-                            <input type="text" name="id" id="id" class="input" maxlength="98" th:value="${free.id}" readonly>
+                            <input type="text" name="id" id="id" class="form-control" maxlength="98" th:value="${free.id}" readonly>
                         </td>
                     </tr>
                     <tr class="border-bottom">
@@ -92,7 +90,7 @@
                                 [[${free.content}]]
                             </textarea>
                             <script>
-                                CKEDITOR.replace('content', {filebrowserUploadUrl: '/free/imageUpload.do'});
+                                CKEDITOR.replace('content', {filebrowserUploadUrl: '/team15/free/imageUpload.do'});
                             </script>
                         </td>
                     </tr>

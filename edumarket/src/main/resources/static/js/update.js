@@ -52,7 +52,7 @@ $(document).ready(function(){
 
     $("#email").on("input", () => {
         $("#emailCheck").val("false");
-        $("#msg2").html("<strong style='color:red'>아이디가 바뀌었습니다. 다시 검증해주세요</strong>");
+        $("#msg2").html("<strong style='color:red'>이메일이 바뀌었습니다. 다시 검증해주세요</strong>");
         $("#emailCheck").focus();
     })
 });
