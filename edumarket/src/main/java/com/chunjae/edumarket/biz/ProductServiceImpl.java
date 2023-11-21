@@ -19,8 +19,8 @@ public class ProductServiceImpl implements ProductService{
     
     // 모든 중고상품 목록 보기, 관리자
     @Override
-    public List<Product> getAdmProductList() {
-        return productMapper.getAdmProductList();
+    public List<Product> getAdmProductList(Page page) {
+        return productMapper.getAdmProductList(page);
     }
 
     @Override
@@ -44,13 +44,23 @@ public class ProductServiceImpl implements ProductService{
     public List<Product> productListRecent() {return productMapper.productListRecent();}
 
     @Override
-    public List<Product> myProductList(String id) {
-        return productMapper.getMyProductList(id);
+    public List<Product> myProductList(Page page) {
+        return productMapper.getMyProductList(page);
+    }
+
+    @Override
+    public int getMyTotal(Page page) throws Exception {
+        return productMapper.getMyTotal(page);
+    }
+
+    @Override
+    public int getBuyerTotal(Page page) throws Exception {
+        return productMapper.getBuyerTotal(page);
     }
 
     @Override // 내 구매 목록 추출
-    public List<Product> productBuyerList(String id) {
-        return productMapper.productBuyerList(id);
+    public List<Product> productBuyerList(Page page) {
+        return productMapper.productBuyerList(page);
     }
 
     // 글 상세 보기

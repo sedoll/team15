@@ -7,6 +7,13 @@
     <select id="findAllRoom" resultType="com.chunjae.edumarket.entity.ChatRoom">
         select * from chatroom
     </select>
+    <!-- 특정 사용자의 채팅방 목록 출력 -->
+    <select id="findAllRoomWithName" resultType="com.chunjae.edumarket.entity.ChatRoom">
+        SELECT c.*, message as lastChat, resdate as lastDate
+        FROM chatroom c JOIN (SELECT room_id,MAX(resdate) AS maxDate FROM chatmsg GROUP BY room_id) m ON (c.room_id = m.room_id)
+                        JOIN chatmsg msg ON (c.room_id = msg.room_id)
+        WHERE resdate = maxDate and (buyer = #{name} or seller = #{name})
+    </select>
     <!-- 구매자와의 채팅방 목록 출력 -->
     <select id="findBuyerById" resultType="com.chunjae.edumarket.entity.ProductChat">
         select * from pro_chat where seller=#{seller} and pact='JOIN' and cact='JOIN'

@@ -32,6 +32,15 @@ public class ChatService {
         }
         return new ArrayList<>(chatRooms.values());
     }
+
+    // 특정 사용자의 전체 채팅방 목록 가져오기
+    public List<ChatRoom> findAllRoom(String name) {
+        List<ChatRoom> chatRoomList = chatMapper.findAllRoomWithName(name);
+        for (ChatRoom cr : chatRoomList) {
+            chatRooms.put(cr.getRoomId(), cr);
+        }
+        return new ArrayList<>(chatRooms.values());
+    }
     
     // 채팅방 들어가기
     public ChatRoom findRoomById(String roomId) {

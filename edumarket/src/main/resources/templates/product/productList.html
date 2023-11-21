@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Aroma Shop - Category</title>
+    <title> 중고상품 </title>
     <th:block th:replace="layout/head :: headFragment"></th:block>
     <link rel="stylesheet" th:href="@{/css/productlist.css}">
 </head>
@@ -19,7 +19,7 @@
     <div class="container h-100">
         <div class="blog-banner">
             <div class="text-center">
-                <h1>중고상품</h1>
+                <h1> 중고상품 </h1>
                 <nav aria-label="breadcrumb" class="banner-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item active" aria-current="page">원하는 물건을 찾거나 파는 즐거움을 느껴보세요!</li>
@@ -33,7 +33,7 @@
 
 
 <!-- ================ category section start ================= -->
-<section class="section-margin--small mb-5">
+<section class="section-margin--small pb-5 mb-5">
     <div class="container">
         <div class="row">
             <div class="col-xl-3 col-lg-4 col-md-5">
@@ -42,7 +42,8 @@
                     <ul class="main-categories">
                         <li class="common-filter">
                             <ul>
-                                <form th:action="@{/common/productList}" method="get">
+                                <form th:action="@{/common/productList}" id="categoryForm" method="get">
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="전체" name="category" value=""><label for="전체">전체</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="의류" name="category" value="의류"><label for="의류">의류</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="악세서리" name="category" value="악세서리"><label for="악세서리">악세서리</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="전자제품" name="category" value="전자제품"><label for="전자제품">전자제품</label></li>
@@ -52,15 +53,6 @@
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="티켓" name="category" value="티켓"><label for="티켓">티켓</label></li>
                                     <li class="filter-list"><input class="pixel-radio" type="radio" id="뷰티" name="category" value="뷰티"><label for="뷰티">뷰티</label></li>
                                 </form>
-                                <script th:inline="javascript">
-                                    $(document).ready(() => {
-                                        $("input[type=radio]").change(() => {
-                                            document.forms[0].submit();
-                                        });
-                                        $("#" + [[${page.category}]]).attr("checked", "checked");
-                                        console.log()
-                                    });
-                                </script>
                             </ul>
                         </li>
                     </ul>
@@ -69,16 +61,16 @@
             <div class="col-xl-9 col-lg-8 col-md-7">
                 <!-- Start Filter Bar -->
                 <div class="filter-bar d-flex justify-content-end flex-wrap align-items-center">
-                    <form th:action="@{/common/productList}" method="get" class="d-flex justify-content-end">
+                    <form th:action="@{/common/productList}" method="get" class="d-flex justify-content-end align-items-end">
                         <input type="hidden" name="category" th:value="${page.category}">
-                        <select name="type" id="type" class="select_filter mt-2">
+                        <select name="type" id="type" class="select_filter border-0 rounded-0" style="height: 38px;">
                             <option value="L">지역</option>
                             <option value="T">제목</option>
                             <option value="C">내용</option>
                             <option value="W">판매자</option>
                         </select>
                         <div class="input-group filter-bar-search">
-                            <input type="text" id="keyword" name="keyword" placeholder="Search" th:value="${page.keyword}">
+                            <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" th:value="${page.keyword}" autocomplete="off">
                             <div class="input-group-append">
                                 <button type="submit"><i class="ti-search"></i></button>
                             </div>
@@ -106,43 +98,47 @@
                     </div>
                 </section>
                 <!-- End Best Seller -->
-                <nav class="blog-pagination justify-content-center d-flex">
+                <nav class="blog-pagination justify-content-center d-flex" th:if="${page.lastPageNum != 0}">
                     <ul class="pagination">
-                        <li class="page-item">
-                            <a href="#" class="page-link" aria-label="Previous">
+                        <li class="page-item" th:if="${page.curPageNum > 5}">
+                            <a th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Previous">
                                 <
                             </a>
                         </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">01</a>
+                        <li th:class="${page.curPageNum == i ? 'page-item active' : 'page-item'}" th:each="i : ${#numbers.sequence(page.blockStartNum, page.blockLastNum)}">
+                            <a th:href="@{/common/productList(page=${page.blockStartNum - 1},type=${page.type},keyword=${page.keyword})}" th:text="${i}" class="page-link"></a>
                         </li>
-                        <li class="page-item active">
-                            <a href="#" class="page-link">02</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">03</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">04</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link">09</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#" class="page-link" aria-label="Next">
+                        <li class="page-item" th:if="${page.blockLastNum < page.totalPageCount}">
+                            <a th:href="@{/common/productList(page=${page.blockLastNum + 1},type=${page.type},keyword=${page.keyword})}" class="page-link" aria-label="Next">
                                 >
                             </a>
                         </li>
                     </ul>
                 </nav>
+                <div class="d-flex justify-content-end mt-5" sec:authorize="isAuthenticated()">
+                    <a th:href="@{/product/fileUpload}" class="btn btn-primary"> 판매하기 </a>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
+<script th:inline="javascript">
+    $(document).ready(() => {
+        let curCate = [[${page.category}]];
+        $("input[type=radio]").change(() => {
+            $("#categoryForm").submit();
+        });
+
+        $("#" + [[${page.category}]]).attr("checked", "checked");
+        if(curCate == '' || curCate == null) {
+            $("#전체").attr("checked", "checked");
+        }
+    });
+</script>
+
 <!--================ Start footer Area  =================-->
 <th:block th:replace="layout/footer :: footerFragment"></th:block>
 <!--================ End footer Area  =================-->
-<script th:src="@{/js/product-datatables.js}"></script>
 </body>
 </html>

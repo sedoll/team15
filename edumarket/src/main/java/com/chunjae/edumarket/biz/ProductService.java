@@ -9,13 +9,15 @@ import java.util.List;
 
 
 public interface ProductService {
-    public List<Product> getAdmProductList(); // 모든 중고상품 리스트 목록
+    public List<Product> getAdmProductList(Page page); // 모든 중고상품 리스트 목록
     public int getTotal(Page page) throws Exception;      // 조건에 맞는 게시글 개수
     public List<Product> productList(); // 글 목록 보기
     public List<Product> productListWithPage(Page page);    // 페이징 처리된 글 목록
     public List<Product> productListRecent(); // 최근 게시글 목록
-    public List<Product> myProductList(String id); // 내 상점 조회
-    public List<Product> productBuyerList(String id); // 내 구매 조회
+    public List<Product> myProductList(Page page); // 내 상점 조회
+    public int getMyTotal(Page page) throws Exception;      // 내 상점 게시글 수
+    public int getBuyerTotal(Page page) throws Exception;
+    public List<Product> productBuyerList(Page page); // 내 구매 조회
     public Product getProduct(Integer no) throws Exception; // 글 상세 보기
     public int productUpdate(Product product) throws Exception; // 글 수정
     public void insertFileboard(FileVO fileboard) throws Exception; // 글 추가

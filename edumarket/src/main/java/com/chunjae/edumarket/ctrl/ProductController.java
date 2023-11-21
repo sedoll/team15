@@ -3,6 +3,7 @@ package com.chunjae.edumarket.ctrl;
 import com.chunjae.edumarket.biz.ChatService;
 import com.chunjae.edumarket.biz.ProductServiceImpl;
 import com.chunjae.edumarket.entity.*;
+import com.chunjae.edumarket.utils.Page;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 @Slf4j
@@ -245,16 +247,25 @@ public class ProductController {
     // 내가 판 상품 목록
     // 상품 목록 보기
     @GetMapping("productList")
-    public String myProductList(@RequestParam("name") String name, Model model) throws Exception {
-        List<Product> productList = productService.myProductList(name);
+    public String myProductList(Principal principal, HttpServletRequest request, Model model) throws Exception {
+        String category = request.getParameter("category");
+        String type = request.getParameter("type");
+        String keyword = request.getParameter("keyword");
+        int curPage = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        Page page = new Page(curPage, type, keyword, category);
+        page.setName(principal.getName());
+        page.makePage(productService.getMyTotal(page));
+
+        List<Product> productList = productService.myProductList(page);
         List<FileDTO> fileList = new ArrayList<>();
         for (Product pro:productList) {
             FileDTO dto = productService.thmbn(pro.getNo());
             fileList.add(dto);
         }
-//        log.info(fileboardList.toString());
+
         model.addAttribute("productList", productList);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("page", page);
         return "user/myProductList";
     }
     
@@ -276,16 +287,25 @@ public class ProductController {
 
     // 내가 구매한 상품 목록
     @GetMapping("productBuyerList")
-    public String productBuyerList(@RequestParam("name") String name, Model model) throws Exception {
-        List<Product> productList = productService.productBuyerList(name);
+    public String productBuyerList(Principal principal, HttpServletRequest request, Model model) throws Exception {
+        String category = request.getParameter("category");
+        String type = request.getParameter("type");
+        String keyword = request.getParameter("keyword");
+        int curPage = request.getParameter("page") == null ? 1 : Integer.parseInt(request.getParameter("page"));
+        Page page = new Page(curPage, type, keyword, category);
+        page.setName(principal.getName());
+        page.makePage(productService.getBuyerTotal(page));
+
+        List<Product> productList = productService.productBuyerList(page);
         List<FileDTO> fileList = new ArrayList<>();
         for (Product pro:productList) {
             FileDTO dto = productService.thmbn(pro.getNo());
             fileList.add(dto);
         }
-//        log.info(fileboardList.toString());
+
         model.addAttribute("productList", productList);
         model.addAttribute("fileList", fileList);
+        model.addAttribute("page", page);
         return "user/productBuyerList";
     }
 }
