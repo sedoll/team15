@@ -82,7 +82,7 @@
                 <!-- 아이디가 일치하거나 관리자인 경우 -->
                 <th:block sec:authorize="isAuthenticated() and (hasAuthority('ADMIN'))">
                     <a class="btn btn-primary" style="background-color: #2B3A55; color: #fff; float: right" th:href="@{/notice/noticeEdit(no=${notice.no})}">수정</a>
-                    <a class="btn btn-primary" th:href="@{/notice/noticeDelete(no=${notice.no})}" style="float: right; margin-right: 15px">삭제</a>
+                    <a class="btn btn-danger" th:href="@{/notice/noticeDelete(no=${notice.no})}" style="float: right; margin-right: 15px">삭제</a>
                     <a class="btn btn-primary" th:href="@{/notice/noticeList}">목록</a>
                 </th:block>
                 <br>

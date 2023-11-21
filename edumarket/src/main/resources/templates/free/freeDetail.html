@@ -38,8 +38,24 @@
         width: 20%;
     }
 
+    .item4 {
+        width: 10%;
+    }
+
     .item1, .item2, .item3 {
         text-align: center;
+    }
+
+    .button2 {
+        width: 85px;
+        text-decoration: none;
+        border-radius: 20px;
+        margin: 15px;
+        padding: 10px;
+        float: right;
+        background-color: #FFA500;
+        border-color: #FFA500;
+        color: #ffffff;
     }
 </style>
 
@@ -93,28 +109,27 @@
                     <br>
                 </div>
             </div>
-            <hr>
-            <p>여러분의 의견을 듣고 싶어요. 나눠주세요!</p>
-            <hr>
             <form th:action="@{/free/commentInsert}" id="login_frm" class="frm" method="post" onsubmit="return comment(this)">
                 <table class="tb3">
                     <tbody>
                     <tr>
+                        <hr>
+                        <p>여러분의 의견을 듣고 싶어요. 나눠주세요!</p>
                         <th:block sec:authorize="isAuthenticated()" class="form-group">
-                            <th class="has-text-centered" th:text="${#authentication.principal}"></th>
-                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글" maxlength="250" required ></textarea></th>
+                            <th class="has-text-centered" th:text="${#authentication.principal}" style="font-size: 20px;color: black;width: 10%;text-align: center;"></th>
+                            <th><textarea name="content" id="content" class="form-control" cols="100" rows="5" placeholder="댓글" maxlength="250" required style="border-radius: 20px; margin-left: 6px" ></textarea></th>
                             <th>
                                 <input type="hidden" name="id" th:value="${#authentication.principal}">
                                 <input type="hidden" name="par" th:value="${free.no}">
-                                <input type="submit" value="작성" class="button">
+                                <input type="submit" value="작성" class="button2">
                                 <input type="hidden" id="ck" value="no">
                             </th>
                         </th:block>
-
                     </tr>
                     </tbody>
                 </table>
             </form>
+            <br>
             <table class="table" id="comment">
                 <thead>
                 <tr>
@@ -132,7 +147,7 @@
                     <td class="item4">
                         <th:block th:if="${#authentication.principal eq lev.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
                             <a th:href="@{/free/commentUpdate(no=${lev.no})}" class="btn btn-primary " style="float: right">수정</a>
-                            <a th:href="@{/free/commentDelete(no=${lev.no})}" class="btn btn-primary" style="float: right; margin-right: 15px">삭제</a>
+                            <a th:href="@{/free/commentDelete(no=${lev.no})}" class="btn btn-danger" style="float: right; margin-right: 15px">삭제</a>
                         </th:block>
                     </td>
                 </tr>
@@ -143,8 +158,8 @@
     <div class="btns has-text-centered">
         <!-- 아이디가 일치하거나 관리자인 경우 -->
         <th:block th:if="${#authentication.principal eq free.id or #authorization.expression('hasAuthority(''ADMIN'')')}">
-            <a class="btn btn-primary" style="background-color: #2B3A55; color: #fff; float: right" th:href="@{/free/freeEdit(no=${free.no})}">수정</a>
-            <a class="btn btn-primary" th:href="@{/free/freeDelete(no=${free.no})}" style="float: right; margin-right: 15px">삭제</a>
+            <a class="btn btn-primary" style="background-color: #2B3A55; color: #fff; float: right" th:href="@{/free/freeEdit(no=${free.no})}">글 수정</a>
+            <a class="btn btn-danger" th:href="@{/free/freeDelete(no=${free.no})}" style="float: right; margin-right: 15px">글 삭제</a>
             <a class="btn btn-primary" th:href="@{/free/freeList}">목록</a>
         </th:block>
         <br>
