@@ -8,7 +8,7 @@
     <style>
         #chat {
             max-height: 500px;
-            max-width: 300px;
+            max-width: 500px;
             overflow-y: scroll;
             margin: 10px auto;
         }
@@ -20,24 +20,26 @@
 
         /* 내가 보낸 메시지 */
         .my-message {
-            text-align: right;
-            background-color: #6a87e7;
-            color: #333;
+            margin-left: 80px;
+            background-color: #0084ff;
+            color: #FFF;
             border-radius: 15px;
             padding: 8px 12px;
             margin-bottom: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            word-break:break-all;
         }
 
         /* 다른 사람이 보낸 메시지 */
         .others-message {
-            text-align: left;
+            margin-right: 80px;
             background-color: #E2E2E2;
             color: #333;
             border-radius: 15px;
             padding: 8px 12px;
             margin-bottom: 6px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            word-break:break-all;
         }
     </style>
 </head>
@@ -67,19 +69,23 @@
             <div id="chat">
                 <th:block th:each="msg : ${chat}">
                     <div th:class="${msg.sender == #authentication.principal ? 'my-message' : 'others-message'}">
-                        [[${msg.sender}]] : [[${msg.message}]]
+                        [[${msg.message}]]
                     </div>
                 </th:block>
                 <div class="msgArea"></div>
             </div>
         </div>
         <div class="input-group">
-            <input type="text" class="form-control" id="content" placeholder="보낼 메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
+            <input type="text" class="form-control" id="content" maxlength="200" placeholder="보낼 메세지를 입력하세요." aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
                 <input type="hidden" id="id" th:value="${#authentication.principal}">
                 <input type="hidden" id="roomId" th:value="${roomId}" />
-                <button type="button" value="전송" class="btn btn btn-outline-primary" id="sendBtn" onclick="sendMsg()">전송</button>
-                <button type="button" value="방나가기" class="btn btn-outline-danger" onclick="quit()">방 나가기 </button>
+                <button type="button" class="btn btn btn-outline-primary" id="sendBtn" onclick="sendMsg()">전송</button>
+                <button type="button" class="btn btn-outline-warning" onclick="rst()">초기화</button>
+            </div>
+            <br>
+            <div class="input-group">
+                <button type="button" class="btn btn-outline-danger" onclick="quit()">방 나가기</button>
             </div>
         </div>
     </div>
@@ -128,7 +134,8 @@
 
         let msgArea = document.querySelector('.msgArea');
         let newMsg = document.createElement('div');
-        newMsg.innerText = `${sender} : ${message}`;
+
+        newMsg.innerText = `${message}`;
         // id와 sender 값 비교하여 클래스 추가
         console.log(id);
         console.log(sender);
@@ -158,7 +165,16 @@
         // csrf 토큰 정보 가져오기
         const token = $("meta[name='_csrf']").attr("content")
         const header = $("meta[name='_csrf_header']").attr("content");
-        let content = document.getElementById('content').value;
+        let content = $("#content").val();
+
+        const pattern = /<|>/i; // 스크립트 태그 방지를 위한 패턴 제외
+
+        if(pattern.test(content)) {
+            alert("메세지는 특수문자(<, >)를 제외한 글자 만 입력이 가능합니다")
+            $("#content").focus();
+            return false;
+        }
+
         let talkMsg = {
             "type": "TALK",
             "roomId": roomId,
@@ -202,12 +218,19 @@
         mySpace.scrollTop = mySpace.scrollHeight;
     }
 
-    // 채팅 보내기
     $(document).ready(function () {
+        // 채팅 보내기
         $("#sendBtn").click(()=> {
             $("#content").val("");
-        })
+        });
+
+        window.history.forward();
     });
+
+    // 메시지 초기화
+    function rst() {
+        $("#content").val("");
+    }
 </script>
 <!-- endregion -->
 
