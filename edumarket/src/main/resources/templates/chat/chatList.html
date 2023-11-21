@@ -50,7 +50,7 @@
                 </thead>
                 <tbody>
                 <th:block th:each="room : ${roomList}">
-                    <th:block th:if="${room.act eq 'JOIN' and (#authentication.principal eq room.buyer or #authentication.principal eq room.seller or #authorization.expression('hasAuthority(''ADMIN'')'))}">
+                    <th:block th:if="${room.act eq 'JOIN' and (#authentication.principal eq room.buyer or #authentication.principal eq room.seller)}">
                         <tr>
                             <td><a th:href="@{/chat/chatRoom(roomId=${room.roomId})}"
                                    class="btn btn-primary">들어가기</a></td>
