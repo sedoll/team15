@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자유게시판 글 등록</title>
     <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
-    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" th:src="@{/ckeditor/ckeditor.js}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <th:block th:replace="layout/head :: headFragment"></th:block>
 </head>
@@ -77,23 +77,21 @@
                         <br>
                         <th class="has-text-centered">제목</th>
                         <td>
-                            <input type="text" name="title" id="title" class="input" placeholder="제목을 입력해주세요!" maxlength="98" th:value="${title}" required
-                                   style="width: 1020px;
-                                   height: 60px;">
+                            <input type="text" name="title" id="title" class="form-control" placeholder="제목을 입력해주세요!" maxlength="98" required>
                         </td>
                     </tr>
                     <tr class="border-top">
                         <th class="has-text-centered">작성자</th>
                         <td>
-                            <input type="text" name="id" id="id" class="input" maxlength="98" th:value="${name}" readonly>
+                            <input type="text" name="id" id="id" class="form-control" maxlength="98" th:value="${name}" readonly>
                         </td>
                     </tr>
                     <tr class="border-bottom">
                         <th class="has-text-centered">내용</th>
                         <td>
                             <textarea name="content" id="content" class="textarea" placeholder="내용" rows="8" cols="100" maxlength="1400" required></textarea>
-                            <script>
-                                CKEDITOR.replace('content',	{filebrowserUploadUrl:'/free/imageUpload.do'});
+                            <script inline="javascript">
+                                CKEDITOR.replace('content',	{filebrowserUploadUrl:`/team15/free/imageUpload.do?[[${_csrf.parameterName}]]=[[${_csrf.token}]]`});
                             </script>
                         </td>
                     </tr>

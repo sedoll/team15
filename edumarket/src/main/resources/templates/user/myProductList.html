@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,13 +79,15 @@
                         <div class="col-md-6 col-lg-4" th:each="product, status : ${productList}">
                             <div class="card text-center card-product">
                                 <div class="card-product__img">
-                                    <img class="card-img pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}" alt="상품이미지">
+                                    <img class="card-img pro-img" th:src="${'/team15/common/image?savefile='+fileList.get(status.index).savefile+'&originfile='+fileList.get(status.index).originfile}"
+                                         alt="상품이미지" th:style="${#strings.equals(product.act, 'DSBLD') ? 'filter: brightness(0.5)' : ''}">
                                 </div>
                                 <div class="card-body">
                                     <p>[ [[${product.cate}]] ]</p>
                                     <p>[[${product.addr}]]</p>
                                     <h4 class="card-product__title"><a th:href="@{/common/getProduct(no=${product.no})}">[[${product.title}]]</a></h4>
                                     <p class="card-product__price" th:text="${product.price eq 0 ? '무료나눔' : product.price + '원'}"></p>
+                                    <p class="text-danger" th:if="${#strings.equals(product.act, 'DSBLD')}"> 판매완료 </p>
                                 </div>
                             </div>
                         </div>
