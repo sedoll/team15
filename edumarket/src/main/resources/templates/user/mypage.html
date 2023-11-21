@@ -90,7 +90,7 @@
                         <h4 class="mb-3"><i class="fa-solid fa-cash-register"></i> 채팅방 </h4>
                         <a th:href="@{/chat/chatList(name=${#authentication.principal})}" class="btn btn-link"> 더보기 </a>
                     </div>
-                    <div th:each="room : ${roomList}" th:if="${room.buyer == #authentication.principal or room.seller == #authentication.principal}"
+                    <div th:each="room : ${roomList}" th:if="${room.act eq 'JOIN' and (room.buyer == #authentication.principal or room.seller == #authentication.principal)}"
                          th:onclick="|location.href='@{/chat/chatRoom(roomId=${room.roomId})}'|" id="chatWrap">
                         <div id="chatList">
                             <div class="bg-dark text-center" style="width: 80px; height: 80px; border-radius: 50%;">
