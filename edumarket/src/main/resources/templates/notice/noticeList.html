@@ -39,6 +39,26 @@
 </head>
 <body>
 <div th:replace="layout/header :: header"></div>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>공지사항</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            셀파몰의 중요소식을 공지사항을 통해 만나보세요!
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
 <div class="container">
     <p class="title has-text-centered mt-1 mb-2"></p>
     <div class="search_from">
@@ -77,6 +97,8 @@
             <th:block sec:authorize="hasAuthority('ADMIN')">
                 <a th:href="@{/notice/noticeInsert(name=${#authentication.principal})}" class="button is-link is-medium" style="float: right">글쓰기</a>
             </th:block>
+            <br>
+            <br>
             <br>
             <br>
         </div>

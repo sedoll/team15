@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 수정</title>
     <th:block th:replace="layout/head :: headFragment"></th:block>
-    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
-</head>
+    <script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script></head>
 <style>
     .table th {
         white-space: nowrap;
@@ -37,6 +37,26 @@
 
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>공지사항 수정하기</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            오직 관리자만 접근하실 수 있습니다.
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
 <div class="container">
     <div class="columns">
         <div class="column is-10 is-offset-1">
@@ -44,12 +64,16 @@
                 <table class="table is-centered is-fullwidth">
                     <tbody>
                     <tr class="border-top">
+                        <br>
+                        <br>
                         <th class="has-text-centered">제목</th>
                         <td>
                             <input type="hidden" name="no" id="no" th:value="${notice.no}">
                             <input type="text" name="title" id="title" class="input" placeholder="제목 입력"
                                    th:value="${notice.title}"
-                                   maxlength="98" required>
+                                   maxlength="98" required
+                                   style="width: 1020px;
+                                   height: 60px;">
                         </td>
                     </tr>
                     <tr class="border-bottom">

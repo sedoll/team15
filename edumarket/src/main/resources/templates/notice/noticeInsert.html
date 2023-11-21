@@ -44,6 +44,26 @@
 
 <body>
 <th:block th:replace="layout/header :: headerFragment"></th:block>
+
+<!-- ================ start banner area ================= -->
+<section class="blog-banner-area" id="category">
+    <div class="container h-100">
+        <div class="blog-banner">
+            <div class="text-center">
+                <h1>공지사항 작성하기</h1>
+                <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active" aria-current="page">
+                            오직 관리자만 접근하실 수 있습니다.
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================ end banner area ================= -->
+
 <div class="container">
     <div class="columns">
         <div class="column is-10 is-offset-1">
@@ -51,9 +71,13 @@
                 <table class="table is-centered is-fullwidth">
                     <tbody>
                     <tr class="border-top">
+                        <br>
+                        <br>
                         <th class="has-text-centered">제목</th>
                         <td>
-                            <input type="text" name="title" id="title" class="input" placeholder="제목" maxlength="98" th:value="${title}" required>
+                            <input type="text" name="title" id="title" class="input" placeholder="제목" maxlength="98" th:value="${title}" required
+                                   style="width: 1020px;
+                                   height: 60px;">
                         </td>
                     </tr>
                     <tr class="border-bottom">
