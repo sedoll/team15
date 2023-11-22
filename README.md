@@ -43,3 +43,11 @@
 ![셀파](./team15ReadMe/043.png)
 ![셀파](./team15ReadMe/044.png)
 ![셀파](./team15ReadMe/045.png)
+<br>  
+## 구현 영상
+![셀파](./team15ReadMe/비회원.mkv)
+![셀파](./team15ReadMe/공지사항.mkv)
+![셀파](./team15ReadMe/출석.mkv)
+![셀파](./team15ReadMe/중고상품.mkv)
+![셀파](./team15ReadMe/채팅.mkv)
+![셀파](./team15ReadMe/관리자페이지.mkv)
