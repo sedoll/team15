@@ -1,7 +1,7 @@
 // 환경에 따라 값을 조금 바꿔야 한다.
 let chatInsertUrl = "/team15/chat/insertChat";
 let chatListUrl = "/team15/user/mypage";
-let chatUrl = "ws://localhost:8085/team15/ws/chat";
+let chatUrl = "ws://10.41.1.127:8082/team15/ws/chat"; // host는 직접 지정해주자
 
 let socket = new WebSocket(chatUrl);
 let roomId = document.getElementById('roomId').value;

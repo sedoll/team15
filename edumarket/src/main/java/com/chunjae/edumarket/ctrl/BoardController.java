@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @Controller
-@CrossOrigin("http://localhost:8085")
+@CrossOrigin("http://10.41.1.127:8082")
 @RequestMapping("/board/*")
 public class BoardController {
 
