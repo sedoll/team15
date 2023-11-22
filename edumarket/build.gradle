@@ -6,7 +6,10 @@ plugins {
 }
 
 group = 'com.chunjae'
-version = '0.0.1-SNAPSHOT'
+version = 'team15'
+apply plugin : 'war'
+bootWar.enabled = false
+war.enabled = true
 
 java {
     sourceCompatibility = '17'
@@ -29,7 +32,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    providedCompile 'org.apache.tomcat.embed:tomcat-embed-jasper'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'

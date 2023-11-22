@@ -27,7 +27,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@CrossOrigin("http://localhost:8085")
+@CrossOrigin("http://10.41.1.127:8082")
 @RequestMapping("/admin/*")
 public class AdminController {
     private Logger logger = LoggerFactory.getLogger(this.getClass());

@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .antMatchers("/chat/**").hasAnyAuthority("ADMIN", "EMP", "USER")
                 .antMatchers("/admin/**").hasAuthority("ADMIN") // Role 말고 Authority로 적용
                 .antMatchers("/emp/**").hasAnyAuthority("ADMIN", "EMP")
-                .mvcMatchers("/css/**", "/js/**", "/img/**", "/cleditor/**", "/scss/**", "/vendors/**", "/ckeditor/**", "/webfonts/**").permitAll()
+                .mvcMatchers("/css/**", "/js/**", "/img/**", "/cleditor/**", "/scss/**", "/vendors/**", "/ckeditor/**", "/webfonts/**", "/resource/**","/upload/**").permitAll()
                 .anyRequest().authenticated(); // 앞에서 선언한 모든 것들을 인증
                 // "/webfonts/**" 웹 폰트를 추가하는 경우 이거 넣어주자, 안하면 error page 뜸
 

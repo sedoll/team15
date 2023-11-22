@@ -21,8 +21,8 @@ CREATE TABLE euser(
 );
 
 -- 더미 데이터
-INSERT INTO euser VALUES (DEFAULT, 'kim1', '1234', '김', 'kim@gmail.com', '서울시 금천구', '가산동','11100', '010-1004-1004', '1985-01-11', DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO euser VALUES (DEFAULT, 'lee1', '1234', '오', 'oh@gmail.com', '서울시 관악구', '신림동' ,'22222' , '010-7979-2848', '1999-06-28', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO euser VALUES (DEFAULT, 'kim1', '1234', '김유신', 'kim@gmail.com', '서울시 금천구', '가산동','11100', '010-1004-1004', '1985-01-11', DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO euser VALUES (DEFAULT, 'lee1', '1234', '오동동', 'oh@gmail.com', '서울시 관악구', '신림동' ,'22222' , '010-7979-2848', '1999-06-28', DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO euser VALUES (DEFAULT, 'admin', '1234', '박세훈', 'park@gmail.com', '서울시 관악구', '신림동' ,'22222' , '010-2424-7942', '1990-11-22', DEFAULT, DEFAULT, DEFAULT);
 
 UPDATE euser SET lev='ADMIN' WHERE NAME='admin';
